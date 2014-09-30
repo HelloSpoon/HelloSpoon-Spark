@@ -1,7 +1,8 @@
 Arduino-XL320
 =============
 
-This is a library created to control Dynamixel XL-320 actuator from ROBOTIS using any Arduino compatible board.
+This is a library created to control Dynamixel XL-320 actuator from ROBOTIS using an Arduino compatible board.
+Tested only with: Arduino UNO and Arduino Nano.
 
  Code based on:
  Dynamixel.cpp - Ax-12+ Half Duplex USART Comunication
