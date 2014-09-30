@@ -16,5 +16,5 @@ Tested only with: Arduino UNO and Arduino Nano.
  Twitter: @HelloSpoon
  Youtube: http://youtube.com/user/hellospoonrobot
 
- This file can be used and be modified by anyone, 
+ This file can be used and modified by anyone, 
  don't forget to say thank you to OP!
