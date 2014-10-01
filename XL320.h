@@ -66,10 +66,16 @@
 class DynamixelPro {
 private:
 	unsigned char Direction_Pin;
-	
+	volatile char gbpParamEx[130+10];
+
 public:
 	void begin();
+	int moveJoint(int ID, int value);
+	int setJointSpeed(int ID, int value);
+	int LED(int ID, int led_color);
+	int getSpoonLoad(int ID);
 	int writeWord(int ID, int Address, int value);
+	int readWord(int ID, int Address);
 };
 
 extern DynamixelPro XL320;
