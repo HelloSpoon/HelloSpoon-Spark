@@ -16,12 +16,16 @@
  don't forget to say thank you to OP!
  
  */
-
+#ifdef SPARK
+#include "application.h" //Spark Core compatible library
+#else
 #if defined(ARDUINO) && ARDUINO >= 100  // Arduino IDE Version
 #include "Arduino.h"
 #else
 #include "WProgram.h"
 #endif
+#endif
+
 #include "dxl_pro.h"
 #include "XL320.h"
 
