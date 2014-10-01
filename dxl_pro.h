@@ -25,6 +25,11 @@ extern "C" {
 #define DXL_LOBYTE(w)           ((unsigned char)(((unsigned long)(w)) & 0xff))
 #define DXL_HIBYTE(w)           ((unsigned char)((((unsigned long)(w)) >> 8) & 0xff))
 
+
+#define RX_TIMEOUT_COUNT2		(1600L) //(1000L) //porting
+#define NANO_TIME_DELAY			(12000) //ydh added 20111228 -> 20120210 edited ydh
+#define RX_TIMEOUT_COUNT1  		(RX_TIMEOUT_COUNT2*128L)
+
 unsigned short update_crc(unsigned short crc_accum, unsigned char *data_blk_ptr, unsigned short data_blk_size);
 
 #ifdef __cplusplus
