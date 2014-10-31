@@ -108,21 +108,57 @@ int DynamixelPro::readWord(int ID, int Address){
 int DynamixelPro::moveJoint(int ID, int value){
 	int Address = 30;
 	sendPacket(ID, Address, value);
+	delay(1);
 }
 
 int DynamixelPro::setJointSpeed(int ID, int value){
 	int Address = 32;
 	sendPacket(ID, Address, value);
-
+	delay(1);
 }
 
 int DynamixelPro::LED(int ID, int value){
 	int Address = 25;
 	sendPacket(ID, Address, value);
+	delay(1);
 }	
 
 int DynamixelPro::getSpoonLoad(int ID){
 
+}
+
+int DynamixelPro::setJointTorque(int ID, int value){
+	int Address = 35;
+	sendPacket(ID, Address, value);
+	delay(1);
+}
+
+int DynamixelPro::TorqueON(int ID){
+	sendPacket(ID, 24, 1);
+	delay(1);
+}
+
+int DynamixelPro::TorqueOFF(int ID){
+	sendPacket(ID, 24, 0);
+	delay(1);
+}
+
+int DynamixelPro::activateTrunk(){
+	for(int id = 1; id < 6; id++){
+		sendPacket(id, 24, 1);
+		delay(1);
+	}
+}
+
+int DynamixelPro::deactivateTrunk(){
+	for(int id = 1; id < 6; id++){
+		sendPacket(id, 24, 0);
+		delay(1);
+	}
+}
+
+int DynamixelPro::quickTest(){
+	
 }
 
 int sendPacket(int ID, int Address, int value){
