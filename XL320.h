@@ -87,7 +87,7 @@ public:
 	Usage:
 	XL320.moveJoint(1, 324);
 	*/
-	int moveJoint(int ID, int value);
+	void moveJoint(int ID, int value);
 	
 	/*
 	Set the speed of the joint selected between 0-1023
@@ -99,7 +99,7 @@ public:
 	Usage:
 	XL320.setJointSpeed(2, 400);
 	*/
-	int setJointSpeed(int ID, int value);
+	void setJointSpeed(int ID, int value);
 	
 	/*
 	Choose color of LED from Dynamixel XL-320
@@ -111,7 +111,7 @@ public:
 	Usage:
 	XL320.LED(1, 7);
 	*/
-	int LED(int ID, int led_color);
+	void LED(int ID, int led_color);
 	
 	/**/
 	int getSpoonLoad(int ID);
@@ -126,7 +126,7 @@ public:
 	Usage:
 	XL320.setJointTorque(1, 512);
 	*/
-	int setJointTorque(int ID, int value);
+	void setJointTorque(int ID, int value);
 	
 	/*
 	Turn ON Torque of the selected joint.
@@ -137,7 +137,7 @@ public:
 	Usage:
 	XL320.TorqueON(2);
 	*/
-	int TorqueON(int ID);
+	void TorqueON(int ID);
 	
 	/*
 	Turn OFF Torque of the selected joint.
@@ -148,7 +148,7 @@ public:
 	Usage:
 	XL320.TorqueOFF(4);
 	*/
-	int TorqueOFF(int ID);
+	void TorqueOFF(int ID);
 	
 	/*
 	Turn OFF Torque of the whole robotic trunk.
@@ -156,7 +156,7 @@ public:
 	Usage:
 	XL320.deactivateTrunk();
 	*/
-	int deactivateTrunk();
+	void deactivateTrunk();
 	
 	/*
 	Turn ON Torque of the whole robotic trunk.
@@ -164,7 +164,7 @@ public:
 	Usage:
 	XL320.activateTrunk();
 	*/
-	int activateTrunk();
+	void activateTrunk();
 	
 	/*
 	Test to prove the correct functionality of the robotic trunk.
@@ -172,7 +172,7 @@ public:
 	Usage:
 	XL320.quickTest();
 	*/
-	int quickTest();
+	void quickTest();
 	
 	/**/
 	int writeWord(int ID, int Address, int value);
