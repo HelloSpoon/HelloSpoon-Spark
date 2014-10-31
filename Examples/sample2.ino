@@ -15,7 +15,7 @@ void setup(){
 void loop(){  
 
   hs.moveJoint(5,random(212,512));
-  hs.LED(5,random(1,6));
+  hs.LED(5,random(1,7));
   delay(1000);  
 
 }
