@@ -16,8 +16,8 @@
  
  */
 
-#ifndef XL320_h
-#define XL320_h
+#ifndef HELLOSPOON_h
+#define HELLOSPOON_h
 
 /*EEPROM Area*/
 #define XL_MODEL_NUMBER_L           0
