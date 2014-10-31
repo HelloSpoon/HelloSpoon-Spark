@@ -15,14 +15,13 @@ For wiring and programming tutorials and info, please go to the Wiki section of 
 
 Code based on:
 
-Ax-12+ Half Duplex USART Comunication Copyright (c) 2011 Savage Electronics.
+Ax-12+ Half Duplex USART Comunication Copyright (c) 2011 Savage Electronics
 and Dynamixel Pro library for OpenCM-9.04 made by ROBOTIS, LTD.
 
 Modified to work only with Dynamixel XL-320 actuator.
 
 Modifications made by Luis G III for HelloSpoon robot.
- Webpage: http://hellospoonrobot.com
- Twitter: @HelloSpoon
- Youtube: http://youtube.com/user/hellospoonrobot
 
-This file can be used and modified by anyone, don't forget to say thank you to OP!
+Webpage - http://hellospoonrobot.com
+Twitter - @HelloSpoon
+Youtube - http://youtube.com/user/hellospoonrobot
