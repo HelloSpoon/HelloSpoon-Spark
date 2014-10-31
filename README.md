@@ -18,8 +18,6 @@ Code based on:
 Ax-12+ Half Duplex USART Comunication Copyright (c) 2011 Savage Electronics
 and Dynamixel Pro library for OpenCM-9.04 made by ROBOTIS, LTD.
 
-Modified to work only with Dynamixel XL-320 actuator.
-
 Modifications made by Luis G III for HelloSpoon robot.
 
 Webpage - http://hellospoonrobot.com
