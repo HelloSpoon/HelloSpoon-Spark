@@ -69,18 +69,114 @@ private:
 	volatile char gbpParamEx[130+10];
 
 public:
+	/*
+	Initialization of communication with Dynamixel XL-320 using 2.0 protocol
+	
+	Usage:
+	XL320.begin();
+	*/
 	void begin();
+	
+	/*
+	Set the position of the joint selected between 0-1023.
+	
+	@params
+	ID - Dynamixel XL-320 defined ID
+	value - 0-1023
+	
+	Usage:
+	XL320.moveJoint(1, 324);
+	*/
 	int moveJoint(int ID, int value);
+	
+	/*
+	Set the speed of the joint selected between 0-1023
+	
+	@params
+	ID - Dynamixel XL-320 defined ID
+	value - 0-1023
+	
+	Usage:
+	XL320.setJointSpeed(2, 400);
+	*/
 	int setJointSpeed(int ID, int value);
+	
+	/*
+	Choose color of LED from Dynamixel XL-320
+	
+	@params
+	ID - Dynamixel XL-320 defined ID
+	led_color - 0 OFF 1 RED 2 GREEN 3 BLUE 4 YELLOW 5 BLUE-GREEN 6 PINK 7 WHITE
+	
+	Usage:
+	XL320.LED(1, 7);
+	*/
 	int LED(int ID, int led_color);
+	
+	/**/
 	int getSpoonLoad(int ID);
+	
+	/*
+	Set the maximum torque limit of the selected joint
+	
+	@params
+	ID - Dynamixel XL-320 defined ID
+	value - 0-1023
+	
+	Usage:
+	XL320.setJointTorque(1, 512);
+	*/
 	int setJointTorque(int ID, int value);
+	
+	/*
+	Turn ON Torque of the selected joint.
+	
+	@params
+	ID - Dynamixel XL-320 defined ID
+	
+	Usage:
+	XL320.TorqueON(2);
+	*/
 	int TorqueON(int ID);
+	
+	/*
+	Turn OFF Torque of the selected joint.
+	
+	@params
+	ID - Dynamixel XL-320 defined ID
+	
+	Usage:
+	XL320.TorqueOFF(4);
+	*/
 	int TorqueOFF(int ID);
+	
+	/*
+	Turn OFF Torque of the whole robotic trunk.
+	
+	Usage:
+	XL320.deactivateTrunk();
+	*/
 	int deactivateTrunk();
+	
+	/*
+	Turn ON Torque of the whole robotic trunk.
+	
+	Usage:
+	XL320.activateTrunk();
+	*/
 	int activateTrunk();
+	
+	/*
+	Test to prove the correct functionality of the robotic trunk.
+	
+	Usage:
+	XL320.quickTest();
+	*/
 	int quickTest();
+	
+	/**/
 	int writeWord(int ID, int Address, int value);
+	/**/
 	int readWord(int ID, int Address);
 };
 
