@@ -1,20 +1,28 @@
 HelloSpoon-Spark
 =============
 
-This is a library created to control Dynamixel XL-320 actuator from ROBOTIS using an Arduino compatible board.
-Tested only with: Arduino UNO and Arduino Nano.
+This is a library created to control HelloSpoon robot DIY version.
+HelloSpoon is a mealtime companion robot intended to help children and elderly
+with upper limb difficulties to have an entertainment time.
 
- Code based on:
- Dynamixel.cpp - Ax-12+ Half Duplex USART Comunication
- Copyright (c) 2011 Savage Electronics.
- And Dynamixel Pro library for OpenCM-9.04 made by ROBOTIS, LTD.
+HelloSpoon hardware is based on:
 
- Modified to work only with Dynamixel XL-320 actuator.
+Spark Core - http://docs.spark.io/hardware/
 
- Modifications made by Luis G III for HelloSpoon robot.
+DYNAMIXEL XL-320 servos - http://support.robotis.com/en/product/dynamixel/xl-320/xl-320.htm
+
+For wiring and programming tutorials and info, please go to the Wiki section of this page.
+
+Code based on:
+
+Ax-12+ Half Duplex USART Comunication Copyright (c) 2011 Savage Electronics.
+and Dynamixel Pro library for OpenCM-9.04 made by ROBOTIS, LTD.
+
+Modified to work only with Dynamixel XL-320 actuator.
+
+Modifications made by Luis G III for HelloSpoon robot.
  Webpage: http://hellospoonrobot.com
  Twitter: @HelloSpoon
  Youtube: http://youtube.com/user/hellospoonrobot
 
- This file can be used and modified by anyone, 
- don't forget to say thank you to OP!
+This file can be used and modified by anyone, don't forget to say thank you to OP!
