@@ -27,7 +27,7 @@
 #endif
 
 #include "dxl_pro.h"
-#include "XL320.h"
+#include "HelloSpoon.h"
 
 // Macro for the selection of the Serial Port
 #define sendData(args)  (Serial.write(args))    // Write Over Serial
