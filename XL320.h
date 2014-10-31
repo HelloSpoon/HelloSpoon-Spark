@@ -73,7 +73,7 @@ public:
 	Initialization of communication with Dynamixel XL-320 using 2.0 protocol
 	
 	Usage:
-	XL320.begin();
+	hs.begin();
 	*/
 	void begin();
 	
@@ -85,7 +85,7 @@ public:
 	value - 0-1023
 	
 	Usage:
-	XL320.moveJoint(1, 324);
+	hs.moveJoint(1, 324);
 	*/
 	void moveJoint(int ID, int value);
 	
@@ -97,7 +97,7 @@ public:
 	value - 0-1023
 	
 	Usage:
-	XL320.setJointSpeed(2, 400);
+	hs.setJointSpeed(2, 400);
 	*/
 	void setJointSpeed(int ID, int value);
 	
@@ -109,7 +109,7 @@ public:
 	led_color - 0 OFF 1 RED 2 GREEN 3 BLUE 4 YELLOW 5 BLUE-GREEN 6 PINK 7 WHITE
 	
 	Usage:
-	XL320.LED(1, 7);
+	hs.LED(1, 7);
 	*/
 	void LED(int ID, int led_color);
 	
@@ -124,7 +124,7 @@ public:
 	value - 0-1023
 	
 	Usage:
-	XL320.setJointTorque(1, 512);
+	hs.setJointTorque(1, 512);
 	*/
 	void setJointTorque(int ID, int value);
 	
@@ -135,7 +135,7 @@ public:
 	ID - Dynamixel XL-320 defined ID
 	
 	Usage:
-	XL320.TorqueON(2);
+	hs.TorqueON(2);
 	*/
 	void TorqueON(int ID);
 	
@@ -146,7 +146,7 @@ public:
 	ID - Dynamixel XL-320 defined ID
 	
 	Usage:
-	XL320.TorqueOFF(4);
+	hs.TorqueOFF(4);
 	*/
 	void TorqueOFF(int ID);
 	
@@ -154,7 +154,7 @@ public:
 	Turn OFF Torque of the whole robotic trunk.
 	
 	Usage:
-	XL320.deactivateTrunk();
+	hs.deactivateTrunk();
 	*/
 	void deactivateTrunk();
 	
@@ -162,7 +162,7 @@ public:
 	Turn ON Torque of the whole robotic trunk.
 	
 	Usage:
-	XL320.activateTrunk();
+	hs.activateTrunk();
 	*/
 	void activateTrunk();
 	
@@ -170,7 +170,7 @@ public:
 	Test to prove the correct functionality of the robotic trunk.
 	
 	Usage:
-	XL320.quickTest();
+	hs.quickTest();
 	*/
 	void quickTest();
 	
