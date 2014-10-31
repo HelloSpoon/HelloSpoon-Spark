@@ -180,6 +180,6 @@ public:
 	int readWord(int ID, int Address);
 };
 
-extern DynamixelPro XL320;
+extern DynamixelPro hs;
 
 #endif
