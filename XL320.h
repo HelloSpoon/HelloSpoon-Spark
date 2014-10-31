@@ -74,6 +74,12 @@ public:
 	int setJointSpeed(int ID, int value);
 	int LED(int ID, int led_color);
 	int getSpoonLoad(int ID);
+	int setJointTorque(int ID, int value);
+	int TorqueON(int ID);
+	int TorqueOFF(int ID);
+	int deactivateTrunk();
+	int activateTrunk();
+	int quickTest();
 	int writeWord(int ID, int Address, int value);
 	int readWord(int ID, int Address);
 };
