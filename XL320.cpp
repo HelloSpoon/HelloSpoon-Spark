@@ -277,4 +277,4 @@ int RXsendPacket(int ID, int Address){
 
 }
 
-DynamixelPro XL320;
+DynamixelPro hs;
