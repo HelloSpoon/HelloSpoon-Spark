@@ -14,11 +14,11 @@ Made by Luis G III for HelloSpoon robot.
 #include "HelloSpoon.h"
 
 void setup(){
-  XL320.begin();
+  hs.begin();
   delay(1000);
-  XL320.writeWord(5,30,512);
+  hs.writeWord(5,30,512);
   delay(1000);
-  XL320.writeWord(5,25,1);
+  hs.writeWord(5,25,1);
   delay(1000);
 }
 void loop(){}
