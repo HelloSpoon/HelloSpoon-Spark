@@ -1,4 +1,4 @@
-Arduino-XL320
+HelloSpoon-Spark
 =============
 
 This is a library created to control Dynamixel XL-320 actuator from ROBOTIS using an Arduino compatible board.
