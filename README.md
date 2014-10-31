@@ -11,7 +11,7 @@ Spark Core - http://docs.spark.io/hardware/
 
 DYNAMIXEL XL-320 servos - http://support.robotis.com/en/product/dynamixel/xl-320/xl-320.htm
 
-For wiring and programming tutorials and info, please go to the Wiki section of this page.
+For wiring, programming tutorials and more, please go to the Wiki section of this page.
 
 Code based on:
 
