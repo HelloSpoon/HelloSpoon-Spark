@@ -5,7 +5,10 @@ Code to test HelloSpoon #1.
 2. Move XL-320 actuator.
 3. Turn on LED of XL-320.
 
-To know the full list of instructions check inside XL320.h
+To know the full list of instructions check inside HelloSpoon.h
+
+To learn how to upload this code and custom codes to HelloSpoon
+please visit the Wiki included in this repository.
 
 Made by Luis G III for HelloSpoon robot.
 
