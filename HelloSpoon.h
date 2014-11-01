@@ -111,7 +111,7 @@ public:
 	Usage:
 	hs.LED(1, 7);
 	*/
-	void LED(int ID, int led_color);
+	void LED(int Joint, int led_color);
 	
 	/*
 	Set the maximum torque limit of the selected joint
