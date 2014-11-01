@@ -2,8 +2,8 @@
 Code to test HelloSpoon behavior.
 
   1. Initialize the comm.
-  2. Turn Dynamixel ID 4 LED ON, Yellow color.
-  3. Move Dynamixel ID 4.
+  2. Turn Dynamixel ID 5 LED ON, Yellow color.
+  3. Move Joint #4.
   4. Random positions and LED colors are generated in Loop.
 
 To learn the full list of methods check inside HelloSpoon.h
