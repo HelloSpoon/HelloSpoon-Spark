@@ -171,22 +171,73 @@ public:
 	*/
 	void quickTest();
 	
-	/**/
+	/*
+	Get the load applied to the spoon actuator.
+	
+	Usage:
+	int spoon = hs.getSpoonLoad();
+	
+	if(spoon>100){
+		
+	}
+	*/
 	int getSpoonLoad();
 	
-	/**/
+	/*
+	Get the actual position of the selected joint.
+	
+	@params
+	ID - Dynamixel XL-320 defined ID
+	
+	Usage:
+	int position = hs.getJointPosition(1);
+	*/
 	int getJointPosition(int ID);
 	
-	/**/
+	/*
+	Get the actual speed of the selected joint.
+	
+	@params
+	ID - Dynamixel XL-320 defined ID
+	
+	Usage:
+	int speed = hs.getJointSpeed(1);
+	*/
 	int getJointSpeed(int ID);
 	
-	/**/
+	/*
+	Get the actual load of the selected joint.
+	
+	@params
+	ID - Dynamixel XL-320 defined ID
+	
+	Usage:
+	int load = hs.getJointLoad(1);
+	*/
 	int getJointLoad(int ID);
 	
-	/**/
+	/*
+	Get the actual temperature of the selected joint.
+	
+	@params
+	ID - Dynamixel XL-320 defined ID
+	
+	Usage:
+	int temperature = hs.getJointTemperature(1);
+	*/
 	int getJointTemperature(int ID);
 	
-	/**/
+	/*
+	Get the moving state of the selected joint.
+	
+	@params
+	ID - Dynamixel XL-320 defined ID
+	
+	Usage:
+	if(hs.isJointMoving(2)){
+		
+	}
+	*/
 	int isJointMoving(int ID);
 	
 	/**/
