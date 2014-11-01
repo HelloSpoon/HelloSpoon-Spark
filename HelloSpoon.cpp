@@ -41,8 +41,6 @@
 int sendPacket(int ID, int Address, int value);
 int RXsendPacket(int ID, int Address);
 
-bool initialized = false;
-
 void DynamixelPro::begin()
 {	
 	setDPin(Direction_Pin=4,OUTPUT);
