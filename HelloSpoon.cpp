@@ -165,16 +165,16 @@ void DynamixelPro::quickTest(){
 	}
 	
 	for(int id = 1; id < 6; id++){
+	    
+	    position_tmp = random(0,512); 
 		
-		if(id == 3){
-			sendPacket(3, 30, 512-position_tmp);
+		if(id != 3){
+		    sendPacket(id, 30, position_tmp);
 			delay(1000);
 		}
 		
-		position_tmp = random(0,512); 
-		
 		else{
-			sendPacket(id, 30, position_tmp);
+			sendPacket(3, 30, 512-position_tmp);
 			delay(1000);
 		}
 	}
