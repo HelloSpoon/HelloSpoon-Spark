@@ -172,7 +172,7 @@ public:
 	void quickTest();
 	
 	/**/
-	int getSpoonLoad(int ID);
+	int getSpoonLoad();
 	
 	/**/
 	int getJointPosition(int ID);
