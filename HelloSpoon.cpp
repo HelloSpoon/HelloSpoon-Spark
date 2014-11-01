@@ -105,49 +105,49 @@ int DynamixelPro::readWord(int ID, int Address){
 }
 
 void DynamixelPro::moveJoint(int ID, int value){
-	int Address = 30;
+	int Address = XL_GOAL_POSITION_L;
 	sendPacket(ID, Address, value);
 	delay(1);
 }
 
 void DynamixelPro::setJointSpeed(int ID, int value){
-	int Address = 32;
+	int Address = XL_GOAL_SPEED_L;
 	sendPacket(ID, Address, value);
 	delay(1);
 }
 
 void DynamixelPro::LED(int ID, int value){
-	int Address = 25;
+	int Address = XL_LED;
 	sendPacket(ID, Address, value);
 	delay(1);
 }	
 
 void DynamixelPro::setJointTorque(int ID, int value){
-	int Address = 35;
+	int Address = XL_GOAL_TORQUE;
 	sendPacket(ID, Address, value);
 	delay(1);
 }
 
 void DynamixelPro::TorqueON(int ID){
-	sendPacket(ID, 24, 1);
+	sendPacket(ID, XL_TORQUE_ENABLE, 1);
 	delay(1);
 }
 
 void DynamixelPro::TorqueOFF(int ID){
-	sendPacket(ID, 24, 0);
+	sendPacket(ID, XL_TORQUE_ENABLE, 0);
 	delay(1);
 }
 
 void DynamixelPro::activateTrunk(){
 	for(int id = 1; id < 6; id++){
-		sendPacket(id, 24, 1);
+		sendPacket(id, XL_TORQUE_ENABLE, 1);
 		delay(1);
 	}
 }
 
 void DynamixelPro::deactivateTrunk(){
 	for(int id = 1; id < 6; id++){
-		sendPacket(id, 24, 0);
+		sendPacket(id, XL_TORQUE_ENABLE, 0);
 		delay(1);
 	}
 }
@@ -157,9 +157,9 @@ void DynamixelPro::quickTest(){
 	int position_tmp = 0;
 	
 	for(int id = 1; id < 6; id++){
-		sendPacket(id, 25, random(1,7));
+		sendPacket(id, XL_LED, random(1,7));
 		delay(1);
-		sendPacket(id, 32, 200);
+		sendPacket(id, XL_GOAL_SPEED_L, 200);
 		delay(300);
 	}
 	
@@ -168,62 +168,62 @@ void DynamixelPro::quickTest(){
 	    position_tmp = random(0,512); 
 		
 		if(id != 3){
-		    sendPacket(id, 30, position_tmp);
+		    sendPacket(id, XL_GOAL_POSITION_L, position_tmp);
 			delay(1000);
 		}
 		
 		else{
-			sendPacket(3, 30, 512-position_tmp);
+			sendPacket(3, XL_GOAL_POSITION_L, 512-position_tmp);
 			delay(1000);
 		}
 	}
 	
 	for(int id = 1; id < 6; id++){
-		sendPacket(id, 25, 2);
+		sendPacket(id, XL_LED, 2);
 		delay(1);
-		sendPacket(id, 32, 1023);
+		sendPacket(id, XL_GOAL_SPEED_L, 1023);
 		delay(300);
 	}
 	
 	for(int id = 1; id < 6; id++){
-		sendPacket(id, 25, 0);
+		sendPacket(id, XL_LED, 0);
 		delay(300);
 	}
 	
 }
 
 int DynamixelPro::getSpoonLoad(){
-	int spoon = RXsendPacket(4, 41);
+	int spoon = RXsendPacket(4, XL_PRESENT_LOAD);
 	delay(1);
 	return spoon;
 }
 
 int DynamixelPro::getJointPosition(int ID){
-	int pos = RXsendPacket(ID, 31);
+	int pos = RXsendPacket(ID, XL_PRESENT_POSITION);
 	delay(1);
 	return pos;
 }
 
 int DynamixelPro::getJointSpeed(int ID){
-	int speed = RXsendPacket(ID, 39);
+	int speed = RXsendPacket(ID, XL_PRESENT_SPEED);
 	delay(1);
 	return speed;
 }
 
 int DynamixelPro::getJointLoad(int ID){
-	int load = RXsendPacket(ID, 41);
+	int load = RXsendPacket(ID, XL_PRESENT_LOAD);
 	delay(1);
 	return load;
 }
 
 int DynamixelPro::getJointTemperature(int ID){
-	int temp = RXsendPacket(ID, 46);
+	int temp = RXsendPacket(ID, XL_PRESENT_TEMPERATURE);
 	delay(1);
 	return temp;
 }
 
 int DynamixelPro::isJointMoving(int ID){
-	int motion = RXsendPacket(ID, 49);
+	int motion = RXsendPacket(ID, XL_MOVING);
 	delay(1);
 	return motion;
 }
