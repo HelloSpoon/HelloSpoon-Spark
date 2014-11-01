@@ -155,7 +155,6 @@ void DynamixelPro::LED(int Joint, int value){
 		sendPacket(Joint+1, Address, value);
 		delay(1);
 	}
-	delay(1);
 }	
 
 void DynamixelPro::setJointTorque(int Joint, int value){
