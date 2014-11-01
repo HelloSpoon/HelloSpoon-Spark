@@ -190,7 +190,7 @@ public:
 	int isJointMoving(int ID);
 	
 	/**/
-	void writeWord(int ID, int Address, int value);
+	int writeWord(int ID, int Address, int value);
 	/**/
 	int readWord(int ID, int Address);
 };
