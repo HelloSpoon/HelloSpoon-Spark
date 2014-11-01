@@ -16,8 +16,10 @@ Made by Luis G III for HelloSpoon robot.
 void setup(){
   hs.begin();
   delay(1000);
+  
   hs.writeWord(5,30,512);
   delay(1000);
+  
   hs.writeWord(5,25,1);
   delay(1000);
 }
