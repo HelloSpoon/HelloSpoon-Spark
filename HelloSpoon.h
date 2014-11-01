@@ -113,9 +113,6 @@ public:
 	*/
 	void LED(int ID, int led_color);
 	
-	/**/
-	int getSpoonLoad(int ID);
-	
 	/*
 	Set the maximum torque limit of the selected joint
 	
@@ -173,6 +170,24 @@ public:
 	hs.quickTest();
 	*/
 	void quickTest();
+	
+	/**/
+	int getSpoonLoad(int ID);
+	
+	/**/
+	int getJointPosition(int ID);
+	
+	/**/
+	int getJointSpeed(int ID);
+	
+	/**/
+	int getJointLoad(int ID);
+	
+	/**/
+	int getJointTemperature(int ID);
+	
+	/**/
+	int isJointMoving(int ID);
 	
 	/**/
 	int writeWord(int ID, int Address, int value);
