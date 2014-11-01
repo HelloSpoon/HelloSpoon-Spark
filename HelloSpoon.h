@@ -81,25 +81,25 @@ public:
 	Set the position of the joint selected between 0-1023.
 	
 	@params
-	ID - Dynamixel XL-320 defined ID
+	Joint - Number of the joint
 	value - 0-1023
 	
 	Usage:
 	hs.moveJoint(1, 324);
 	*/
-	void moveJoint(int ID, int value);
+	void moveJoint(int Joint, int value);
 	
 	/*
 	Set the speed of the joint selected between 0-1023
 	
 	@params
-	ID - Dynamixel XL-320 defined ID
+	Joint - Number of the joint
 	value - 0-1023
 	
 	Usage:
 	hs.setJointSpeed(2, 400);
 	*/
-	void setJointSpeed(int ID, int value);
+	void setJointSpeed(int Joint, int value);
 	
 	/*
 	Choose color of LED from Dynamixel XL-320
@@ -117,35 +117,35 @@ public:
 	Set the maximum torque limit of the selected joint
 	
 	@params
-	ID - Dynamixel XL-320 defined ID
+	Joint - Number of the joint
 	value - 0-1023
 	
 	Usage:
 	hs.setJointTorque(1, 512);
 	*/
-	void setJointTorque(int ID, int value);
+	void setJointTorque(int Joint, int value);
 	
 	/*
 	Turn ON Torque of the selected joint.
 	
 	@params
-	ID - Dynamixel XL-320 defined ID
+	Joint - Number of the joint
 	
 	Usage:
 	hs.TorqueON(2);
 	*/
-	void TorqueON(int ID);
+	void TorqueON(int Joint);
 	
 	/*
 	Turn OFF Torque of the selected joint.
 	
 	@params
-	ID - Dynamixel XL-320 defined ID
+	Joint - Number of the joint
 	
 	Usage:
 	hs.TorqueOFF(4);
 	*/
-	void TorqueOFF(int ID);
+	void TorqueOFF(int Joint);
 	
 	/*
 	Turn OFF Torque of the whole robotic trunk.
@@ -187,58 +187,58 @@ public:
 	Get the actual position of the selected joint.
 	
 	@params
-	ID - Dynamixel XL-320 defined ID
+	Joint - Number of the joint
 	
 	Usage:
 	int position = hs.getJointPosition(1);
 	*/
-	int getJointPosition(int ID);
+	int getJointPosition(int Joint);
 	
 	/*
 	Get the actual speed of the selected joint.
 	
 	@params
-	ID - Dynamixel XL-320 defined ID
+	Joint - Number of the joint
 	
 	Usage:
 	int speed = hs.getJointSpeed(1);
 	*/
-	int getJointSpeed(int ID);
+	int getJointSpeed(int Joint);
 	
 	/*
 	Get the actual load of the selected joint.
 	
 	@params
-	ID - Dynamixel XL-320 defined ID
+	Joint - Number of the joint
 	
 	Usage:
 	int load = hs.getJointLoad(1);
 	*/
-	int getJointLoad(int ID);
+	int getJointLoad(int Joint);
 	
 	/*
 	Get the actual temperature of the selected joint.
 	
 	@params
-	ID - Dynamixel XL-320 defined ID
+	Joint - Number of the joint
 	
 	Usage:
 	int temperature = hs.getJointTemperature(1);
 	*/
-	int getJointTemperature(int ID);
+	int getJointTemperature(int Joint);
 	
 	/*
 	Get the moving state of the selected joint.
 	
 	@params
-	ID - Dynamixel XL-320 defined ID
+	Joint - Number of the joint
 	
 	Usage:
 	if(hs.isJointMoving(2)){
 		
 	}
 	*/
-	int isJointMoving(int ID);
+	int isJointMoving(int Joint);
 	
 	/**/
 	int writeWord(int ID, int Address, int value);
