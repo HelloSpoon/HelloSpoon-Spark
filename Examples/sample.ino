@@ -1,5 +1,5 @@
 /*
-Code to test XL-320 with Arduino.
+Code to test HelloSpoon #1.
 
 1. Initialize the comm.
 2. Move XL-320 actuator.
@@ -17,10 +17,10 @@ void setup(){
   hs.begin();
   delay(1000);
   
-  hs.writeWord(5,30,512);
+  hs.writeWord(4,30,512);
   delay(1000);
   
-  hs.writeWord(5,25,1);
+  hs.writeWord(4,25,1);
   delay(1000);
 }
 void loop(){}
