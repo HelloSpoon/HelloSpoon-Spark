@@ -123,10 +123,6 @@ void DynamixelPro::LED(int ID, int value){
 	delay(1);
 }	
 
-int DynamixelPro::getSpoonLoad(int ID){
-
-}
-
 void DynamixelPro::setJointTorque(int ID, int value){
 	int Address = 35;
 	sendPacket(ID, Address, value);
@@ -159,6 +155,46 @@ void DynamixelPro::deactivateTrunk(){
 
 void DynamixelPro::quickTest(){
 	
+	int position_tmp = 0;
+	
+	for(int id = 1; id < 6; id++){
+		sendPacket(id, 25, random(1,7));
+		delay(1);
+		sendPacket(id, 32, 200);
+		delay(300);
+	}
+	
+	for(int id = 1; id < 6; id++){
+		
+		if(id == 3){
+			sendPacket(3, 30, 512-position_tmp);
+			delay(1000);
+		}
+		
+		position_tmp = random(0,512); 
+		
+		else{
+			sendPacket(id, 30, position_tmp);
+			delay(1000);
+		}
+	}
+	
+	for(int id = 1; id < 6; id++){
+		sendPacket(id, 25, 2);
+		delay(1);
+		sendPacket(id, 32, 1023);
+		delay(300);
+	}
+	
+	for(int id = 1; id < 6; id++){
+		sendPacket(id, 25, 0);
+		delay(300);
+	}
+	
+}
+
+int DynamixelPro::getSpoonLoad(){
+
 }
 
 int sendPacket(int ID, int Address, int value){
