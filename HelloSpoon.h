@@ -105,7 +105,7 @@ public:
 	Choose color of LED from Dynamixel XL-320
 	
 	@params
-	ID - Dynamixel XL-320 defined ID
+	Joint - Number of the joint
 	led_color - 0 OFF 1 RED 2 GREEN 3 BLUE 4 YELLOW 5 BLUE-GREEN 6 PINK 7 WHITE
 	
 	Usage:
