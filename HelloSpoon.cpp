@@ -197,6 +197,26 @@ int DynamixelPro::getSpoonLoad(){
 
 }
 
+int DynamixelPro::getJointPosition(int ID){
+	
+}
+
+int DynamixelPro::getJointSpeed(int ID){
+	
+}
+
+int DynamixelPro::getJointLoad(int ID){
+	
+}
+
+int DynamixelPro::getJointTemperature(int ID){
+	
+}
+
+int DynamixelPro::isJointMoving(int ID){
+	
+}
+
 int sendPacket(int ID, int Address, int value){
 
 	/*Dynamixel 2.0 communication protocol
