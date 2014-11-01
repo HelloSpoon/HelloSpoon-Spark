@@ -101,7 +101,6 @@ switchCom(Direction_Pin, Rx_MODE);
 int DynamixelPro::readWord(int ID, int Address){
 
 	/*Work in progress...*/
-
 	RXsendPacket(ID, Address);
 }
 
@@ -194,27 +193,39 @@ void DynamixelPro::quickTest(){
 }
 
 int DynamixelPro::getSpoonLoad(){
-
+	int spoon = RXsendPacket(4, 41);
+	delay(1);
+	return spoon;
 }
 
 int DynamixelPro::getJointPosition(int ID){
-	
+	int pos = RXsendPacket(ID, 31);
+	delay(1);
+	return pos;
 }
 
 int DynamixelPro::getJointSpeed(int ID){
-	
+	int speed = RXsendPacket(ID, 39);
+	delay(1);
+	return speed;
 }
 
 int DynamixelPro::getJointLoad(int ID){
-	
+	int load = RXsendPacket(ID, 41);
+	delay(1);
+	return load;
 }
 
 int DynamixelPro::getJointTemperature(int ID){
-	
+	int temp = RXsendPacket(ID, 46);
+	delay(1);
+	return temp;
 }
 
 int DynamixelPro::isJointMoving(int ID){
-	
+	int motion = RXsendPacket(ID, 49);
+	delay(1);
+	return motion;
 }
 
 int sendPacket(int ID, int Address, int value){
@@ -271,7 +282,7 @@ int sendPacket(int ID, int Address, int value){
     	sendData(txbuffer[cont]);
     }
 
-	switchCom(Direction_Pin, Rx_MODE);
+	//switchCom(Direction_Pin, Rx_MODE);
 
 }
 
