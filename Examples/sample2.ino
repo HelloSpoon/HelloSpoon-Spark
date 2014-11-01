@@ -6,8 +6,14 @@ Code to test HelloSpoon behavior.
   3. Move Dynamixel ID 4.
   4. Random positions and LED colors are generated in Loop.
 
-To know the full list of instructions check inside XL320.h
+To learn the full list of methods check inside HelloSpoon.h
+
+To learn how to upload this code and custom codes to HelloSpoon
+please visit the Wiki included in this repository.
+
 Made by Luis G III for HelloSpoon robot.
+
+
 */
 
 #include "HelloSpoon.h"
