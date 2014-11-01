@@ -139,9 +139,22 @@ void DynamixelPro::setJointSpeed(int Joint, int value){
 	}
 }
 
-void DynamixelPro::LED(int ID, int value){
+void DynamixelPro::LED(int Joint, int value){
 	int Address = XL_LED;
-	sendPacket(ID, Address, value);
+	if(Joint == 1){
+		sendPacket(1, Address, value);
+		delay(1);
+	}
+	else if(Joint == 2){
+		sendPacket(2, Address, value);
+		delay(1);
+		sendPacket(3, Address, value);
+		delay(1);
+	}
+	else{
+		sendPacket(Joint+1, Address, value);
+		delay(1);
+	}
 	delay(1);
 }	
 
@@ -260,37 +273,62 @@ void DynamixelPro::quickTest(){
 }
 
 int DynamixelPro::getSpoonLoad(){
-	int spoon = RXsendPacket(4, XL_PRESENT_LOAD);
+	int spoon = RXsendPacket(5, XL_PRESENT_LOAD);
 	delay(1);
 	return spoon;
 }
 
-int DynamixelPro::getJointPosition(int ID){
-	int pos = RXsendPacket(ID, XL_PRESENT_POSITION);
+int DynamixelPro::getJointPosition(int Joint){
+	switch(Joint){
+		case 1: int pos = RXsendPacket(1, XL_PRESENT_POSITION); break;
+		case 2: int pos = RXsendPacket(2, XL_PRESENT_POSITION); break;
+		case 3: int pos = RXsendPacket(4, XL_PRESENT_POSITION); break;
+		case 4: int pos = RXsendPacket(5, XL_PRESENT_POSITION); break;
+	}
 	delay(1);
 	return pos;
 }
 
-int DynamixelPro::getJointSpeed(int ID){
-	int speed = RXsendPacket(ID, XL_PRESENT_SPEED);
+int DynamixelPro::getJointSpeed(int Joint){
+	switch(Joint){
+		case 1: int speed = RXsendPacket(1, XL_PRESENT_SPEED); break;
+		case 2: int speed = RXsendPacket(2, XL_PRESENT_SPEED); break;
+		case 3: int speed = RXsendPacket(4, XL_PRESENT_SPEED); break;
+		case 4: int speed = RXsendPacket(5, XL_PRESENT_SPEED); break;
+	}
 	delay(1);
 	return speed;
 }
 
-int DynamixelPro::getJointLoad(int ID){
-	int load = RXsendPacket(ID, XL_PRESENT_LOAD);
+int DynamixelPro::getJointLoad(int Joint){
+	switch(Joint){
+		case 1: int load = RXsendPacket(1, XL_PRESENT_LOAD); break;
+		case 2: int load = RXsendPacket(2, XL_PRESENT_LOAD); break;
+		case 3: int load = RXsendPacket(4, XL_PRESENT_LOAD); break;
+		case 4: int load = RXsendPacket(5, XL_PRESENT_LOAD); break;
+	}
 	delay(1);
 	return load;
 }
 
-int DynamixelPro::getJointTemperature(int ID){
-	int temp = RXsendPacket(ID, XL_PRESENT_TEMPERATURE);
+int DynamixelPro::getJointTemperature(int Joint){
+	switch(Joint){
+		case 1: int temp = RXsendPacket(1, XL_PRESENT_TEMPERATURE); break;
+		case 2: int temp = RXsendPacket(2, XL_PRESENT_TEMPERATURE); break;
+		case 3: int temp = RXsendPacket(4, XL_PRESENT_TEMPERATURE); break;
+		case 4: int temp = RXsendPacket(5, XL_PRESENT_TEMPERATURE); break;
+	}
 	delay(1);
 	return temp;
 }
 
-int DynamixelPro::isJointMoving(int ID){
-	int motion = RXsendPacket(ID, XL_MOVING);
+int DynamixelPro::isJointMoving(int Joint){
+	switch(Joint){
+		case 1: int motion = RXsendPacket(1, XL_MOVING); break;
+		case 2: int motion = RXsendPacket(2, XL_MOVING); break;
+		case 3: int motion = RXsendPacket(4, XL_MOVING); break;
+		case 4: int motion = RXsendPacket(5, XL_MOVING); break;
+	}
 	delay(1);
 	return motion;
 }
