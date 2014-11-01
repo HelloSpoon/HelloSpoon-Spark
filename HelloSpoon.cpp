@@ -102,16 +102,41 @@ int DynamixelPro::readWord(int ID, int Address){
 	RXsendPacket(ID, Address);
 }
 
-void DynamixelPro::moveJoint(int ID, int value){
+void DynamixelPro::moveJoint(int Joint, int value){
 	int Address = XL_GOAL_POSITION_L;
-	sendPacket(ID, Address, value);
-	delay(1);
+	
+	if(Joint == 1){
+		sendPacket(1, Address, value);
+		delay(1);
+	}
+	else if(Joint == 2){
+		sendPacket(2, Address, value);
+		delay(1);
+		sendPacket(3, Address, 1023-value);
+		delay(1);
+	}
+	else{
+		sendPacket(Joint+1, Address, value);
+		delay(1);
+	}
 }
 
-void DynamixelPro::setJointSpeed(int ID, int value){
+void DynamixelPro::setJointSpeed(int Joint, int value){
 	int Address = XL_GOAL_SPEED_L;
-	sendPacket(ID, Address, value);
-	delay(1);
+	if(Joint == 1){
+		sendPacket(1, Address, value);
+		delay(1);
+	}
+	else if(Joint == 2){
+		sendPacket(2, Address, value);
+		delay(1);
+		sendPacket(3, Address, value);
+		delay(1);
+	}
+	else{
+		sendPacket(Joint+1, Address, value);
+		delay(1);
+	}
 }
 
 void DynamixelPro::LED(int ID, int value){
@@ -120,20 +145,64 @@ void DynamixelPro::LED(int ID, int value){
 	delay(1);
 }	
 
-void DynamixelPro::setJointTorque(int ID, int value){
+void DynamixelPro::setJointTorque(int Joint, int value){
 	int Address = XL_GOAL_TORQUE;
-	sendPacket(ID, Address, value);
-	delay(1);
+	if(Joint == 1){
+		sendPacket(1, Address, value);
+		delay(1);
+	}
+	else if(Joint == 2){
+		sendPacket(2, Address, value);
+		delay(1);
+		sendPacket(3, Address, value);
+		delay(1);
+	}
+	else{
+		sendPacket(Joint+1, Address, value);
+		delay(1);
+	}
 }
 
-void DynamixelPro::TorqueON(int ID){
-	sendPacket(ID, XL_TORQUE_ENABLE, 1);
-	delay(1);
+void DynamixelPro::TorqueON(int Joint){
+	
+	int Address = XL_TORQUE_ENABLE;
+	int value = 1;
+	
+	if(Joint == 1){
+		sendPacket(1, Address, value);
+		delay(1);
+	}
+	else if(Joint == 2){
+		sendPacket(2, Address, value);
+		delay(1);
+		sendPacket(3, Address, value);
+		delay(1);
+	}
+	else{
+		sendPacket(Joint+1, Address, value);
+		delay(1);
+	}
 }
 
-void DynamixelPro::TorqueOFF(int ID){
-	sendPacket(ID, XL_TORQUE_ENABLE, 0);
-	delay(1);
+void DynamixelPro::TorqueOFF(int Joint){
+	
+	int Address = XL_TORQUE_ENABLE;
+	int value = 0;
+	
+	if(Joint == 1){
+		sendPacket(1, Address, value);
+		delay(1);
+	}
+	else if(Joint == 2){
+		sendPacket(2, Address, value);
+		delay(1);
+		sendPacket(3, Address, value);
+		delay(1);
+	}
+	else{
+		sendPacket(Joint+1, Address, value);
+		delay(1);
+	}
 }
 
 void DynamixelPro::activateTrunk(){
