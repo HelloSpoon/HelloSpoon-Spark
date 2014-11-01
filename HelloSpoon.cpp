@@ -47,7 +47,7 @@ void DynamixelPro::begin()
 	beginCom(1000000);
 }	
 
-int DynamixelPro::writeWord(int ID, int Address, int value){
+void DynamixelPro::writeWord(int ID, int Address, int value){
 word cont, wchecksum, wpacklen;
 
 byte txbuffer[255];
@@ -93,8 +93,6 @@ for(cont = 0; cont < wpacklen; cont++)
     {
         sendData(txbuffer[cont]);
     }
-
-switchCom(Direction_Pin, Rx_MODE);
 
 }
 
@@ -228,7 +226,7 @@ int DynamixelPro::isJointMoving(int ID){
 	return motion;
 }
 
-int sendPacket(int ID, int Address, int value){
+void sendPacket(int ID, int Address, int value){
 
 	/*Dynamixel 2.0 communication protocol
 	  used by Dynamixel XL-320 and Dynamixel PRO only.
