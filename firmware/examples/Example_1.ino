@@ -14,7 +14,7 @@ Made by Luis G III for HelloSpoon robot.
 
 */
 
-#include "HelloSpoon.h"
+#include "HelloSpoon-Spark/HelloSpoon.h"
 
 void setup(){
   hs.begin();
