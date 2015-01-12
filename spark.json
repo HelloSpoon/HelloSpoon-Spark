@@ -1,7 +1,7 @@
 {
   "name": "HelloSpoon-Spark",
-  "author": "Luis Garcia <hellospoonpr@gmail.com>",
-  "license": "MIT",
+  "author": "HelloSpoon Embedded Team <hellospoonpr@gmail.com>",
+  "license": "GNU",
   "version": "0.1",
   "description": "A library to control Dynamixel XL-320 smart actuators from HelloSpoon robot."
 }
