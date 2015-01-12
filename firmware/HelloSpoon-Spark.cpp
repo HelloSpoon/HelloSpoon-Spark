@@ -139,20 +139,54 @@ void DynamixelPro::setJointSpeed(int Joint, int value){
 	}
 }
 
-void DynamixelPro::LED(int Joint, int value){
+void DynamixelPro::LED(int Joint, char led_color[]){
 	int Address = XL_LED;
+	int val = 0;
+	
+	if(led_color[0] == 'r'){
+		val = 1;
+	}
+
+	else if(led_color[0] == 'g'){
+		val = 2;
+	}
+
+	else if(led_color[0] == 'y'){
+		val = 3;
+	}
+
+	else if(led_color[0] == 'b'){
+		val = 4;
+	}
+
+	else if(led_color[0] == 'p'){
+		val = 5;
+	}
+
+	else if(led_color[0] == 'c'){
+		val = 6;
+	}
+
+	else if(led_color[0] == 'w'){
+		val = 7;
+	}
+	
+	else if(led_color[0] == 'o'){
+		val = 0;
+	}
+	
 	if(Joint == 1){
-		sendPacket(1, Address, value);
+		sendPacket(1, Address, val);
 		delay(1);
 	}
 	else if(Joint == 2){
-		sendPacket(2, Address, value);
+		sendPacket(2, Address, val);
 		delay(1);
-		sendPacket(3, Address, value);
+		sendPacket(3, Address, val);
 		delay(1);
 	}
 	else{
-		sendPacket(Joint+1, Address, value);
+		sendPacket(Joint+1, Address, val);
 		delay(1);
 	}
 }	
