@@ -30,9 +30,9 @@
 #include "HelloSpoon-Spark.h"
 
 // Macro for the selection of the Serial Port
-#define sendData(args)  (Serial.write(args))    // Write Over Serial
-#define beginCom(args)  (Serial.begin(args))    // Begin Serial Comunication
-#define readData()		(Serial.read())	
+#define sendData(args)  (Serial1.write(args))    // Write Over Serial
+#define beginCom(args)  (Serial1.begin(args))    // Begin Serial Comunication
+#define readData()		(Serial1.read())	
 
 // Select the Switch to TX/RX Mode Pin
 #define setDPin(DirPin,Mode)   (pinMode(DirPin,Mode)) 
