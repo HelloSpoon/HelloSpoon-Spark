@@ -81,180 +81,29 @@ private:
 public:
 	HelloSpoon();
 	virtual ~HelloSpoon();	
-	/*
-	Initialization of communication with Dynamixel XL-320 using 2.0 protocol
 	
-	Usage:
-	hs.begin();
-	*/
 	void begin();
 	
-	/*
-	Set the position of the joint selected between 0-1023.
-	
-	@params
-	Joint - Number of the joint
-	value - 0-1023
-	
-	Usage:
-	hs.moveJoint(1, 324);
-	*/
 	void moveJoint(int Joint, int value);
-	
-	/*
-	Set the speed of the joint selected between 0-1023
-	
-	@params
-	Joint - Number of the joint
-	value - 0-1023
-	
-	Usage:
-	hs.setJointSpeed(2, 400);
-	*/
 	void setJointSpeed(int Joint, int value);
-	
-	/*
-	Choose color of LED from Dynamixel XL-320
-	
-	@params
-	Joint - Number of the joint
-	led_color - 0 OFF 1 RED 2 GREEN 3 BLUE 4 YELLOW 5 BLUE-GREEN 6 PINK 7 WHITE
-	
-	Usage:
-	hs.LED(1, 7);
-	*/
 	void LED(int Joint, char led_color[]);
-	
-	/*
-	Set the maximum torque limit of the selected joint
-	
-	@params
-	Joint - Number of the joint
-	value - 0-1023
-	
-	Usage:
-	hs.setJointTorque(1, 512);
-	*/
 	void setJointTorque(int Joint, int value);
-	
-	/*
-	Turn ON Torque of the selected joint.
-	
-	@params
-	Joint - Number of the joint
-	
-	Usage:
-	hs.TorqueON(2);
-	*/
+
 	void TorqueON(int Joint);
-	
-	/*
-	Turn OFF Torque of the selected joint.
-	
-	@params
-	Joint - Number of the joint
-	
-	Usage:
-	hs.TorqueOFF(4);
-	*/
 	void TorqueOFF(int Joint);
-	
-	/*
-	Turn OFF Torque of the whole robotic trunk.
-	
-	Usage:
-	hs.deactivateTrunk();
-	*/
 	void deactivateTrunk();
-	
-	/*
-	Turn ON Torque of the whole robotic trunk.
-	
-	Usage:
-	hs.activateTrunk();
-	*/
 	void activateTrunk();
-	
-	/*
-	Test to prove the correct functionality of the robotic trunk.
-	
-	Usage:
-	hs.quickTest();
-	*/
+
 	void quickTest();
-	
-	/*
-	Get the load applied to the spoon actuator.
-	
-	Usage:
-	int spoon = hs.getSpoonLoad();
-	
-	if(spoon>100){
-		
-	}
-	*/
+
 	int getSpoonLoad();
-	
-	/*
-	Get the actual position of the selected joint.
-	
-	@params
-	Joint - Number of the joint
-	
-	Usage:
-	int position = hs.getJointPosition(1);
-	*/
 	int getJointPosition(int Joint);
-	
-	/*
-	Get the actual speed of the selected joint.
-	
-	@params
-	Joint - Number of the joint
-	
-	Usage:
-	int speed = hs.getJointSpeed(1);
-	*/
 	int getJointSpeed(int Joint);
-	
-	/*
-	Get the actual load of the selected joint.
-	
-	@params
-	Joint - Number of the joint
-	
-	Usage:
-	int load = hs.getJointLoad(1);
-	*/
 	int getJointLoad(int Joint);
-	
-	/*
-	Get the actual temperature of the selected joint.
-	
-	@params
-	Joint - Number of the joint
-	
-	Usage:
-	int temperature = hs.getJointTemperature(1);
-	*/
 	int getJointTemperature(int Joint);
-	
-	/*
-	Get the moving state of the selected joint.
-	
-	@params
-	Joint - Number of the joint
-	
-	Usage:
-	if(hs.isJointMoving(2)){
-		
-	}
-	*/
 	int isJointMoving(int Joint);
-	
-	/**/
+
 	int writeWord(int ID, int Address, int value);
-	/**/
 	int readWord(int ID, int Address);
 };
 
