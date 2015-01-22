@@ -92,9 +92,6 @@ public:
 	int getJointLoad(int Joint);
 	int getJointTemperature(int Joint);
 	int isJointMoving(int Joint);
-
-	int writeWord(int ID, int Address, int value);
-	int readWord(int ID, int Address);
 };
 
 #endif
