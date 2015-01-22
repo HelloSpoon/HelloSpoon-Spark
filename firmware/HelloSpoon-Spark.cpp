@@ -41,13 +41,22 @@
 int sendPacket(int ID, int Address, int value);
 int RXsendPacket(int ID, int Address);
 
-void DynamixelPro::begin()
+HelloSpoon::HelloSpoon() {
+	// TODO Auto-generated constructor stub
+
+}
+
+HelloSpoon::~HelloSpoon() {
+	// TODO Auto-generated destructor stub
+}
+
+void HelloSpoon::begin()
 {	
 	setDPin(Direction_Pin=4,OUTPUT);
 	beginCom(1000000);
 }	
 
-int DynamixelPro::writeWord(int ID, int Address, int value){
+int HelloSpoon::writeWord(int ID, int Address, int value){
 word cont, wchecksum, wpacklen;
 
 byte txbuffer[255];
@@ -96,13 +105,13 @@ for(cont = 0; cont < wpacklen; cont++)
 
 }
 
-int DynamixelPro::readWord(int ID, int Address){
+int HelloSpoon::readWord(int ID, int Address){
 
 	/*Work in progress...*/
 	RXsendPacket(ID, Address);
 }
 
-void DynamixelPro::moveJoint(int Joint, int value){
+void HelloSpoon::moveJoint(int Joint, int value){
 	int Address = XL_GOAL_POSITION_L;
 	
 	if(Joint == 1){
@@ -121,7 +130,7 @@ void DynamixelPro::moveJoint(int Joint, int value){
 	}
 }
 
-void DynamixelPro::setJointSpeed(int Joint, int value){
+void HelloSpoon::setJointSpeed(int Joint, int value){
 	int Address = XL_GOAL_SPEED_L;
 	if(Joint == 1){
 		sendPacket(1, Address, value);
@@ -139,7 +148,7 @@ void DynamixelPro::setJointSpeed(int Joint, int value){
 	}
 }
 
-void DynamixelPro::LED(int Joint, char led_color[]){
+void HelloSpoon::LED(int Joint, char led_color[]){
 	int Address = XL_LED;
 	int val = 0;
 	
@@ -191,7 +200,7 @@ void DynamixelPro::LED(int Joint, char led_color[]){
 	}
 }	
 
-void DynamixelPro::setJointTorque(int Joint, int value){
+void HelloSpoon::setJointTorque(int Joint, int value){
 	int Address = XL_GOAL_TORQUE;
 	if(Joint == 1){
 		sendPacket(1, Address, value);
@@ -209,7 +218,7 @@ void DynamixelPro::setJointTorque(int Joint, int value){
 	}
 }
 
-void DynamixelPro::TorqueON(int Joint){
+void HelloSpoon::TorqueON(int Joint){
 	
 	int Address = XL_TORQUE_ENABLE;
 	int value = 1;
@@ -230,7 +239,7 @@ void DynamixelPro::TorqueON(int Joint){
 	}
 }
 
-void DynamixelPro::TorqueOFF(int Joint){
+void HelloSpoon::TorqueOFF(int Joint){
 	
 	int Address = XL_TORQUE_ENABLE;
 	int value = 0;
@@ -251,7 +260,7 @@ void DynamixelPro::TorqueOFF(int Joint){
 	}
 }
 
-void DynamixelPro::activateTrunk(){
+void HelloSpoon::activateTrunk(){
 	for(int id = 1; id < 6; id++){
 		sendPacket(id, XL_TORQUE_ENABLE, 1);
 		delay(1);
@@ -260,7 +269,7 @@ void DynamixelPro::activateTrunk(){
 	}
 }
 
-void DynamixelPro::deactivateTrunk(){
+void HelloSpoon::deactivateTrunk(){
 	for(int id = 1; id < 6; id++){
 		sendPacket(id, XL_TORQUE_ENABLE, 0);
 		delay(1);
@@ -269,7 +278,7 @@ void DynamixelPro::deactivateTrunk(){
 	}
 }
 
-void DynamixelPro::quickTest(){
+void HelloSpoon::quickTest(){
 	
 	int position_tmp = 0;
 	
@@ -309,13 +318,13 @@ void DynamixelPro::quickTest(){
 	
 }
 
-int DynamixelPro::getSpoonLoad(){
+int HelloSpoon::getSpoonLoad(){
 	int spoon = RXsendPacket(5, XL_PRESENT_LOAD);
 	delay(1);
 	return spoon;
 }
 
-int DynamixelPro::getJointPosition(int Joint){
+int HelloSpoon::getJointPosition(int Joint){
     int pos = 0;
 	switch(Joint){
 		case 1: pos = RXsendPacket(1, XL_PRESENT_POSITION); 
@@ -331,7 +340,7 @@ int DynamixelPro::getJointPosition(int Joint){
 	return pos;
 }
 
-int DynamixelPro::getJointSpeed(int Joint){
+int HelloSpoon::getJointSpeed(int Joint){
     int speed = 0;
 	switch(Joint){
 		case 1: speed = RXsendPacket(1, XL_PRESENT_SPEED); 
@@ -347,7 +356,7 @@ int DynamixelPro::getJointSpeed(int Joint){
 	return speed;
 }
 
-int DynamixelPro::getJointLoad(int Joint){
+int HelloSpoon::getJointLoad(int Joint){
     int load = 0;
 	switch(Joint){
 		case 1: load = RXsendPacket(1, XL_PRESENT_LOAD); 
@@ -363,7 +372,7 @@ int DynamixelPro::getJointLoad(int Joint){
 	return load;
 }
 
-int DynamixelPro::getJointTemperature(int Joint){
+int HelloSpoon::getJointTemperature(int Joint){
     int temp = 0;
 	switch(Joint){
 		case 1: temp = RXsendPacket(1, XL_PRESENT_TEMPERATURE); 
@@ -379,7 +388,7 @@ int DynamixelPro::getJointTemperature(int Joint){
 	return temp;
 }
 
-int DynamixelPro::isJointMoving(int Joint){
+int HelloSpoon::isJointMoving(int Joint){
     int motion = 0;
 	switch(Joint){
 		case 1: motion = RXsendPacket(1, XL_MOVING);
@@ -510,5 +519,3 @@ int RXsendPacket(int ID, int Address){
 	switchCom(Direction_Pin, Rx_MODE);
 
 }
-
-DynamixelPro hs;
