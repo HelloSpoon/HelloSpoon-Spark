@@ -56,61 +56,6 @@ void HelloSpoon::begin()
 	beginCom(1000000);
 }	
 
-int HelloSpoon::writeWord(int ID, int Address, int value){
-word cont, wchecksum, wpacklen;
-
-byte txbuffer[255];
-
-gbpParamEx[0]	= (unsigned char)DXL_LOBYTE(Address);
-gbpParamEx[1]	= (unsigned char)DXL_HIBYTE(Address);
-//insert data to parameter bucket
-gbpParamEx[2]	= DXL_LOBYTE(value);
-gbpParamEx[3]	= DXL_HIBYTE(value);
-
-txbuffer[0] = 0xff;
-txbuffer[1] = 0xff;
-txbuffer[2] = 0xfd;
-txbuffer[3] = 0x00;
-
-txbuffer[4] = ID;
-txbuffer[5] = DXL_LOBYTE(4+3);
-txbuffer[6] = DXL_HIBYTE(4+3);
-
-txbuffer[7] = 0x03;
-
-for(cont = 0; cont < 4; cont++)
-    {
-        txbuffer[cont+8] = gbpParamEx[cont];
-    }
-
-wchecksum = 0;
-
-wpacklen = DXL_MAKEWORD(txbuffer[5], txbuffer[6])+5;
-if(wpacklen > (MAXNUM_TXPACKET)){
-        return 0;
-    }
-
-wchecksum = update_crc(0, txbuffer, wpacklen);
-txbuffer[wpacklen] = DXL_LOBYTE(wchecksum);
-txbuffer[wpacklen+1] = DXL_HIBYTE(wchecksum);
-
-wpacklen += 2;
-
-switchCom(Direction_Pin, Tx_MODE);
-
-for(cont = 0; cont < wpacklen; cont++)
-    {
-        sendData(txbuffer[cont]);
-    }
-
-}
-
-int HelloSpoon::readWord(int ID, int Address){
-
-	/*Work in progress...*/
-	RXsendPacket(ID, Address);
-}
-
 void HelloSpoon::moveJoint(int Joint, int value){
 	int Address = XL_GOAL_POSITION_L;
 	
