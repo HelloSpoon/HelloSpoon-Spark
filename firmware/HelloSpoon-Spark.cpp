@@ -38,6 +38,8 @@
 #define setDPin(DirPin,Mode)   (pinMode(DirPin,Mode)) 
 #define switchCom(DirPin,Mode) (digitalWrite(DirPin,Mode))  // Switch to TX/RX Mode
 
+#define NANO_TIME_DELAY 12000
+
 int sendPacket(int ID, int Address, int value);
 int RXsendPacket(int ID, int Address);
 void nDelay(uint32 nTime);
@@ -62,17 +64,17 @@ void HelloSpoon::moveJoint(int Joint, int value){
 	
 	if(Joint == 1){
 		sendPacket(1, Address, value);
-		nDelay(12000);
+		nDelay(NANO_TIME_DELAY);
 	}
 	else if(Joint == 2){
 		sendPacket(2, Address, value);
-		nDelay(12000);
+		nDelay(NANO_TIME_DELAY);
 		sendPacket(3, Address, 1023-value);
-		nDelay(12000);
+		nDelay(NANO_TIME_DELAY);
 	}
 	else{
 		sendPacket(Joint+1, Address, value);
-		nDelay(12000);
+		nDelay(NANO_TIME_DELAY);
 	}
 }
 
@@ -80,17 +82,17 @@ void HelloSpoon::setJointSpeed(int Joint, int value){
 	int Address = XL_GOAL_SPEED_L;
 	if(Joint == 1){
 		sendPacket(1, Address, value);
-		delay(1);
+		nDelay(NANO_TIME_DELAY);
 	}
 	else if(Joint == 2){
 		sendPacket(2, Address, value);
-		delay(1);
+		nDelay(NANO_TIME_DELAY);
 		sendPacket(3, Address, value);
-		delay(1);
+		nDelay(NANO_TIME_DELAY);
 	}
 	else{
 		sendPacket(Joint+1, Address, value);
-		delay(1);
+		nDelay(NANO_TIME_DELAY);
 	}
 }
 
@@ -132,17 +134,17 @@ void HelloSpoon::LED(int Joint, char led_color[]){
 	
 	if(Joint == 1){
 		sendPacket(1, Address, val);
-		nDelay(12000);
+		nDelay(NANO_TIME_DELAY);
 	}
 	else if(Joint == 2){
 		sendPacket(2, Address, val);
-		nDelay(12000);
+		nDelay(NANO_TIME_DELAY);
 		sendPacket(3, Address, val);
-		nDelay(12000);
+		nDelay(NANO_TIME_DELAY);
 	}
 	else{
 		sendPacket(Joint+1, Address, val);
-		nDelay(12000);
+		nDelay(NANO_TIME_DELAY);
 	}
 }	
 
@@ -150,17 +152,17 @@ void HelloSpoon::setJointTorque(int Joint, int value){
 	int Address = XL_GOAL_TORQUE;
 	if(Joint == 1){
 		sendPacket(1, Address, value);
-		delay(1);
+		nDelay(NANO_TIME_DELAY);
 	}
 	else if(Joint == 2){
 		sendPacket(2, Address, value);
-		delay(1);
+		nDelay(NANO_TIME_DELAY);
 		sendPacket(3, Address, value);
-		delay(1);
+		nDelay(NANO_TIME_DELAY);
 	}
 	else{
 		sendPacket(Joint+1, Address, value);
-		delay(1);
+		nDelay(NANO_TIME_DELAY);
 	}
 }
 
@@ -171,17 +173,17 @@ void HelloSpoon::TorqueON(int Joint){
 	
 	if(Joint == 1){
 		sendPacket(1, Address, value);
-		delay(1);
+		nDelay(NANO_TIME_DELAY);
 	}
 	else if(Joint == 2){
 		sendPacket(2, Address, value);
-		delay(1);
+		nDelay(NANO_TIME_DELAY);
 		sendPacket(3, Address, value);
-		delay(1);
+		nDelay(NANO_TIME_DELAY);
 	}
 	else{
 		sendPacket(Joint+1, Address, value);
-		delay(1);
+		nDelay(NANO_TIME_DELAY);
 	}
 }
 
@@ -192,35 +194,35 @@ void HelloSpoon::TorqueOFF(int Joint){
 	
 	if(Joint == 1){
 		sendPacket(1, Address, value);
-		delay(1);
+		nDelay(NANO_TIME_DELAY);
 	}
 	else if(Joint == 2){
 		sendPacket(2, Address, value);
-		delay(1);
+		nDelay(NANO_TIME_DELAY);
 		sendPacket(3, Address, value);
-		delay(1);
+		nDelay(NANO_TIME_DELAY);
 	}
 	else{
 		sendPacket(Joint+1, Address, value);
-		delay(1);
+		nDelay(NANO_TIME_DELAY);
 	}
 }
 
 void HelloSpoon::activateTrunk(){
 	for(int id = 1; id < 6; id++){
 		sendPacket(id, XL_TORQUE_ENABLE, 1);
-		nDelay(12000);
+		nDelay(NANO_TIME_DELAY);
 		sendPacket(id, XL_LED, 4);
-		nDelay(12000);
+		nDelay(NANO_TIME_DELAY);
 	}
 }
 
 void HelloSpoon::deactivateTrunk(){
 	for(int id = 1; id < 6; id++){
 		sendPacket(id, XL_TORQUE_ENABLE, 0);
-		nDelay(12000);
+		nDelay(NANO_TIME_DELAY);
 		sendPacket(id, XL_LED, 5);
-		nDelay(12000);
+		nDelay(NANO_TIME_DELAY);
 	}
 }
 
@@ -230,9 +232,9 @@ void HelloSpoon::quickTest(){
 	
 	for(int id = 1; id < 6; id++){
 		sendPacket(id, XL_LED, random(1,7));
-		delay(100);
+		nDelay(NANO_TIME_DELAY);
 		sendPacket(id, XL_GOAL_SPEED_L, 200);
-		delay(100);
+		nDelay(NANO_TIME_DELAY);
 	}
 	
 	for(int id = 1; id < 6; id++){
@@ -252,21 +254,21 @@ void HelloSpoon::quickTest(){
 	
 	for(int id = 1; id < 6; id++){
 		sendPacket(id, XL_LED, 2);
-		delay(100);
+		nDelay(NANO_TIME_DELAY);
 		sendPacket(id, XL_GOAL_SPEED_L, 1023);
-		delay(300);
+		nDelay(NANO_TIME_DELAY);
 	}
 	
 	for(int id = 1; id < 6; id++){
 		sendPacket(id, XL_LED, 0);
-		delay(300);
+		nDelay(NANO_TIME_DELAY);
 	}
 	
 }
 
 int HelloSpoon::getSpoonLoad(){
 	int spoon = RXsendPacket(5, XL_PRESENT_LOAD);
-	delay(1);
+	nDelay(NANO_TIME_DELAY);
 	return spoon;
 }
 
@@ -282,7 +284,7 @@ int HelloSpoon::getJointPosition(int Joint){
 		case 4: pos = RXsendPacket(5, XL_PRESENT_POSITION); 
 		        break;
 	}
-	delay(1);
+	nDelay(NANO_TIME_DELAY);
 	return pos;
 }
 
@@ -298,7 +300,7 @@ int HelloSpoon::getJointSpeed(int Joint){
 		case 4: speed = RXsendPacket(5, XL_PRESENT_SPEED); 
 		        break;
 	}
-	delay(1);
+	nDelay(NANO_TIME_DELAY);
 	return speed;
 }
 
@@ -314,7 +316,7 @@ int HelloSpoon::getJointLoad(int Joint){
 		case 4: load = RXsendPacket(5, XL_PRESENT_LOAD); 
 		        break;
 	}
-	delay(1);
+	nDelay(NANO_TIME_DELAY);
 	return load;
 }
 
@@ -330,7 +332,7 @@ int HelloSpoon::getJointTemperature(int Joint){
 		case 4: temp = RXsendPacket(5, XL_PRESENT_TEMPERATURE); 
 		        break;
 	}
-	delay(1);
+	nDelay(NANO_TIME_DELAY);
 	return temp;
 }
 
@@ -346,7 +348,7 @@ int HelloSpoon::isJointMoving(int Joint){
 		case 4: motion = RXsendPacket(5, XL_MOVING); 
 		        break;
 	}
-	delay(1);
+	nDelay(NANO_TIME_DELAY);
 	return motion;
 }
 
@@ -402,7 +404,7 @@ int sendPacket(int ID, int Address, int value){
 	for(cont = 0; cont < wpacklen; cont++)
     {
     	sendData(txbuffer[cont]);
-    	nDelay(12000);
+    	nDelay(NANO_TIME_DELAY);
     }
 
 	//switchCom(Direction_Pin, Rx_MODE);
