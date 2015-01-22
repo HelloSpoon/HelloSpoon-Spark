@@ -255,12 +255,16 @@ void DynamixelPro::activateTrunk(){
 	for(int id = 1; id < 6; id++){
 		sendPacket(id, XL_TORQUE_ENABLE, 1);
 		delay(1);
+		sendPacket(id, XL_LED, 4);
+		delay(1);
 	}
 }
 
 void DynamixelPro::deactivateTrunk(){
 	for(int id = 1; id < 6; id++){
 		sendPacket(id, XL_TORQUE_ENABLE, 0);
+		delay(1);
+		sendPacket(id, XL_LED, 5);
 		delay(1);
 	}
 }
