@@ -63,12 +63,24 @@
 
 #include <inttypes.h>
 
-class DynamixelPro {
+typedef struct data {
+    int             iID;
+    int				iAddr;
+    int             iLength;
+    int             iError;
+    byte  			iData[8];
+} BulkData, *PBulkData;
+
+class HelloSpoon {
 private:
 	unsigned char Direction_Pin;
 	volatile char gbpParamEx[130+10];
+	byte usedDxlPro;
+	BulkData mBulkData[32];
 
 public:
+	HelloSpoon();
+	virtual ~HelloSpoon();	
 	/*
 	Initialization of communication with Dynamixel XL-320 using 2.0 protocol
 	
@@ -245,7 +257,5 @@ public:
 	/**/
 	int readWord(int ID, int Address);
 };
-
-extern DynamixelPro hs;
 
 #endif
