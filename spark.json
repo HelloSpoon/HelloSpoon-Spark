@@ -2,6 +2,6 @@
   "name": "HelloSpoon-Spark",
   "author": "HelloSpoon Embedded Team <hellospoonpr@gmail.com>",
   "license": "GNU",
-  "version": "0.0.1",
-  "description": "A library to control Dynamixel XL-320 smart actuators from HelloSpoon robot."
+  "version": "0.0.2",
+  "description": "A library to control HelloSpoon robot."
 }
