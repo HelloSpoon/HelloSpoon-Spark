@@ -16,8 +16,8 @@
  
  */
 
-#ifndef HELLOSPOON_h
-#define HELLOSPOON_h
+#ifndef HELLOSPOON_H_
+#define HELLOSPOON_H_
 
 /*EEPROM Area*/
 #define XL_MODEL_NUMBER_L           0
@@ -75,8 +75,6 @@ class HelloSpoon {
 private:
 	unsigned char Direction_Pin;
 	volatile char gbpParamEx[130+10];
-	byte usedDxlPro;
-	BulkData mBulkData[32];
 
 public:
 	HelloSpoon();
