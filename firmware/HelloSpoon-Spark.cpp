@@ -76,6 +76,8 @@ void HelloSpoon::moveJoint(int Joint, int value){
 		sendPacket(Joint+1, Address, value);
 		nDelay(NANO_TIME_DELAY);
 	}
+	
+	Serial1.flush();
 }
 
 void HelloSpoon::setJointSpeed(int Joint, int value){
@@ -94,6 +96,7 @@ void HelloSpoon::setJointSpeed(int Joint, int value){
 		sendPacket(Joint+1, Address, value);
 		nDelay(NANO_TIME_DELAY);
 	}
+	Serial1.flush();
 }
 
 void HelloSpoon::LED(int Joint, char led_color[]){
@@ -146,6 +149,7 @@ void HelloSpoon::LED(int Joint, char led_color[]){
 		sendPacket(Joint+1, Address, val);
 		nDelay(NANO_TIME_DELAY);
 	}
+	Serial1.flush();
 }	
 
 void HelloSpoon::setJointTorque(int Joint, int value){
@@ -164,6 +168,7 @@ void HelloSpoon::setJointTorque(int Joint, int value){
 		sendPacket(Joint+1, Address, value);
 		nDelay(NANO_TIME_DELAY);
 	}
+	Serial1.flush();
 }
 
 void HelloSpoon::TorqueON(int Joint){
@@ -185,6 +190,7 @@ void HelloSpoon::TorqueON(int Joint){
 		sendPacket(Joint+1, Address, value);
 		nDelay(NANO_TIME_DELAY);
 	}
+	Serial1.flush();
 }
 
 void HelloSpoon::TorqueOFF(int Joint){
@@ -206,23 +212,29 @@ void HelloSpoon::TorqueOFF(int Joint){
 		sendPacket(Joint+1, Address, value);
 		nDelay(NANO_TIME_DELAY);
 	}
+	Serial1.flush();
 }
 
 void HelloSpoon::activateTrunk(){
 	for(int id = 1; id < 6; id++){
 		sendPacket(id, XL_TORQUE_ENABLE, 1);
 		nDelay(NANO_TIME_DELAY);
+		Serial1.flush();
 		sendPacket(id, XL_LED, 4);
 		nDelay(NANO_TIME_DELAY);
+		Serial1.flush();
 	}
+	
 }
 
 void HelloSpoon::deactivateTrunk(){
 	for(int id = 1; id < 6; id++){
 		sendPacket(id, XL_TORQUE_ENABLE, 0);
 		nDelay(NANO_TIME_DELAY);
+		Serial1.flush();
 		sendPacket(id, XL_LED, 5);
 		nDelay(NANO_TIME_DELAY);
+		Serial1.flush();
 	}
 }
 
@@ -233,8 +245,10 @@ void HelloSpoon::quickTest(){
 	for(int id = 1; id < 6; id++){
 		sendPacket(id, XL_LED, random(1,7));
 		nDelay(NANO_TIME_DELAY);
+		Serial1.flush();
 		sendPacket(id, XL_GOAL_SPEED_L, 200);
 		nDelay(NANO_TIME_DELAY);
+		Serial1.flush();
 	}
 	
 	for(int id = 1; id < 6; id++){
@@ -244,24 +258,29 @@ void HelloSpoon::quickTest(){
 		if(id != 3){
 		    sendPacket(id, XL_GOAL_POSITION_L, position_tmp);
 			delay(1000);
+			Serial1.flush();
 		}
 		
 		else{
 			sendPacket(3, XL_GOAL_POSITION_L, 512-position_tmp);
 			delay(1000);
+			Serial1.flush();
 		}
 	}
 	
 	for(int id = 1; id < 6; id++){
 		sendPacket(id, XL_LED, 2);
 		nDelay(NANO_TIME_DELAY);
+		Serial1.flush();
 		sendPacket(id, XL_GOAL_SPEED_L, 1023);
 		nDelay(NANO_TIME_DELAY);
+		Serial1.flush();
 	}
 	
 	for(int id = 1; id < 6; id++){
 		sendPacket(id, XL_LED, 0);
 		nDelay(NANO_TIME_DELAY);
+		Serial1.flush();
 	}
 	
 }
@@ -269,6 +288,7 @@ void HelloSpoon::quickTest(){
 int HelloSpoon::getSpoonLoad(){
 	int spoon = RXsendPacket(5, XL_PRESENT_LOAD);
 	nDelay(NANO_TIME_DELAY);
+	Serial1.flush();
 	return spoon;
 }
 
@@ -285,6 +305,7 @@ int HelloSpoon::getJointPosition(int Joint){
 		        break;
 	}
 	nDelay(NANO_TIME_DELAY);
+	Serial1.flush();
 	return pos;
 }
 
@@ -301,6 +322,7 @@ int HelloSpoon::getJointSpeed(int Joint){
 		        break;
 	}
 	nDelay(NANO_TIME_DELAY);
+	Serial1.flush();
 	return speed;
 }
 
@@ -317,6 +339,7 @@ int HelloSpoon::getJointLoad(int Joint){
 		        break;
 	}
 	nDelay(NANO_TIME_DELAY);
+	Serial1.flush();
 	return load;
 }
 
@@ -333,6 +356,7 @@ int HelloSpoon::getJointTemperature(int Joint){
 		        break;
 	}
 	nDelay(NANO_TIME_DELAY);
+	Serial1.flush();
 	return temp;
 }
 
@@ -349,6 +373,7 @@ int HelloSpoon::isJointMoving(int Joint){
 		        break;
 	}
 	nDelay(NANO_TIME_DELAY);
+	Serial1.flush();
 	return motion;
 }
 
