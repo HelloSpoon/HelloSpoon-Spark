@@ -406,7 +406,12 @@ int sendPacket(int ID, int Address, int value){
     	sendData(txbuffer[cont]);
     	nDelay(NANO_TIME_DELAY);
     }
-
+    
+    //Clean buffer
+	for(cont = 0; cont < wpacklen; cont++)
+    {
+    	txbuffer[cont] = 0;
+    }
 	//switchCom(Direction_Pin, Rx_MODE);
 
 }
