@@ -63,14 +63,6 @@
 
 #include <inttypes.h>
 
-typedef struct data {
-    int             iID;
-    int				iAddr;
-    int             iLength;
-    int             iError;
-    byte  			iData[8];
-} BulkData, *PBulkData;
-
 class HelloSpoon {
 private:
 	unsigned char Direction_Pin;
