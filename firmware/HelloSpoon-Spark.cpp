@@ -401,10 +401,18 @@ int sendPacket(int ID, int Address, int value){
 	for(cont = 0; cont < wpacklen; cont++)
     {
     	sendData(txbuffer[cont]);
+    	nDelay(12000);
     }
 
 	//switchCom(Direction_Pin, Rx_MODE);
 
+}
+
+void nDelay(uint32 nTime){
+	uint32 max;
+	for( max=0; max < nTime; max++){
+
+	}
 }
 
 int RXsendPacket(int ID, int Address){
