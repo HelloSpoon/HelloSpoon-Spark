@@ -209,18 +209,18 @@ void HelloSpoon::TorqueOFF(int Joint){
 void HelloSpoon::activateTrunk(){
 	for(int id = 1; id < 6; id++){
 		sendPacket(id, XL_TORQUE_ENABLE, 1);
-		delay(1);
+		delay(100);
 		sendPacket(id, XL_LED, 4);
-		delay(1);
+		delay(100);
 	}
 }
 
 void HelloSpoon::deactivateTrunk(){
 	for(int id = 1; id < 6; id++){
 		sendPacket(id, XL_TORQUE_ENABLE, 0);
-		delay(1);
+		delay(100);
 		sendPacket(id, XL_LED, 5);
-		delay(1);
+		delay(100);
 	}
 }
 
@@ -230,9 +230,9 @@ void HelloSpoon::quickTest(){
 	
 	for(int id = 1; id < 6; id++){
 		sendPacket(id, XL_LED, random(1,7));
-		delay(1);
+		delay(100);
 		sendPacket(id, XL_GOAL_SPEED_L, 200);
-		delay(300);
+		delay(100);
 	}
 	
 	for(int id = 1; id < 6; id++){
@@ -252,7 +252,7 @@ void HelloSpoon::quickTest(){
 	
 	for(int id = 1; id < 6; id++){
 		sendPacket(id, XL_LED, 2);
-		delay(1);
+		delay(100);
 		sendPacket(id, XL_GOAL_SPEED_L, 1023);
 		delay(300);
 	}
