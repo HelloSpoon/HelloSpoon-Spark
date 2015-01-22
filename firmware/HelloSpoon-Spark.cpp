@@ -62,17 +62,17 @@ void HelloSpoon::moveJoint(int Joint, int value){
 	
 	if(Joint == 1){
 		sendPacket(1, Address, value);
-		delay(1);
+		nDelay(12000);
 	}
 	else if(Joint == 2){
 		sendPacket(2, Address, value);
-		delay(1);
+		nDelay(12000);
 		sendPacket(3, Address, 1023-value);
-		delay(1);
+		nDelay(12000);
 	}
 	else{
 		sendPacket(Joint+1, Address, value);
-		delay(1);
+		nDelay(12000);
 	}
 }
 
@@ -132,17 +132,17 @@ void HelloSpoon::LED(int Joint, char led_color[]){
 	
 	if(Joint == 1){
 		sendPacket(1, Address, val);
-		delay(1);
+		nDelay(12000);
 	}
 	else if(Joint == 2){
 		sendPacket(2, Address, val);
-		delay(1);
+		nDelay(12000);
 		sendPacket(3, Address, val);
-		delay(1);
+		nDelay(12000);
 	}
 	else{
 		sendPacket(Joint+1, Address, val);
-		delay(1);
+		nDelay(12000);
 	}
 }	
 
@@ -209,18 +209,18 @@ void HelloSpoon::TorqueOFF(int Joint){
 void HelloSpoon::activateTrunk(){
 	for(int id = 1; id < 6; id++){
 		sendPacket(id, XL_TORQUE_ENABLE, 1);
-		delay(100);
+		nDelay(12000);
 		sendPacket(id, XL_LED, 4);
-		delay(100);
+		nDelay(12000);
 	}
 }
 
 void HelloSpoon::deactivateTrunk(){
 	for(int id = 1; id < 6; id++){
 		sendPacket(id, XL_TORQUE_ENABLE, 0);
-		delay(100);
+		nDelay(12000);
 		sendPacket(id, XL_LED, 5);
-		delay(100);
+		nDelay(12000);
 	}
 }
 
@@ -402,7 +402,7 @@ int sendPacket(int ID, int Address, int value){
 	for(cont = 0; cont < wpacklen; cont++)
     {
     	sendData(txbuffer[cont]);
-    	nDelay(12000);
+    	//nDelay(12000);
     }
 
 	//switchCom(Direction_Pin, Rx_MODE);
