@@ -40,6 +40,7 @@
 
 int sendPacket(int ID, int Address, int value);
 int RXsendPacket(int ID, int Address);
+void nDelay(uint32 nTime);
 
 HelloSpoon::HelloSpoon() {
 	// TODO Auto-generated constructor stub
