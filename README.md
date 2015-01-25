@@ -1,7 +1,7 @@
 HelloSpoon-Spark
 =============
 
-**Work in progress... not ready yet!
+**Work in progress... not ready yet! Really.
 
 This is a library created to control HelloSpoon robot DIY version.
 HelloSpoon is a mealtime companion robot intended to feed children and elderly
