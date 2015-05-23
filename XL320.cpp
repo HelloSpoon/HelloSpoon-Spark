@@ -7,59 +7,47 @@
 
  Modified to work only with Dynamixel XL-320 actuator.
 
- Modifications made by Luis G III for HelloSpoon robot.
+ Modifications made by Luis G III for XL320 robot.
  Webpage: http://hellospoonrobot.com
- Twitter: @HelloSpoon
+ Twitter: @XL320
  Youtube: http://youtube.com/user/hellospoonrobot
 
  This file can be used and be modified by anyone, 
  don't forget to say thank you to OP!
  
  */
-#ifdef SPARK
-#include "application.h" //Spark Core compatible library
-#else
-#if defined(ARDUINO) && ARDUINO >= 100  // Arduino IDE Version
-#include "Arduino.h"
-#else
-#include "WProgram.h"
-#endif
-#endif
 
+#include "Arduino.h"
 #include "dxl_pro.h"
-#include "HelloSpoon-Spark.h"
+#include "XL320.h"
 
 // Macro for the selection of the Serial Port
-#define sendData(args)  (Serial1.write(args))    // Write Over Serial
-#define beginCom(args)  (Serial1.begin(args))    // Begin Serial Comunication
-#define readData()		(Serial1.read())	
+#define sendData(args)  (this->stream->write(args))    // Write Over Serial
+#define beginCom(args)      // Begin Serial Comunication
+#define readData()		(this->stream->read())	
 
 // Select the Switch to TX/RX Mode Pin
-#define setDPin(DirPin,Mode)   (pinMode(DirPin,Mode)) 
-#define switchCom(DirPin,Mode) (digitalWrite(DirPin,Mode))  // Switch to TX/RX Mode
+#define setDPin(DirPin,Mode)    
+#define switchCom(DirPin,Mode)   // Switch to TX/RX Mode
 
 #define NANO_TIME_DELAY 12000
 
-int sendPacket(int ID, int Address, int value);
-int RXsendPacket(int ID, int Address);
-void nDelay(uint32 nTime);
 
-HelloSpoon::HelloSpoon() {
-	// TODO Auto-generated constructor stub
+XL320::XL320() {
 
 }
 
-HelloSpoon::~HelloSpoon() {
-	// TODO Auto-generated destructor stub
+XL320::~XL320() {
 }
 
-void HelloSpoon::begin()
+void XL320::begin(Stream &stream)
 {	
-	setDPin(Direction_Pin=4,OUTPUT);
-	beginCom(1000000);
+	//setDPin(Direction_Pin=4,OUTPUT);
+	//beginCom(1000000);
+    this->stream = &stream;
 }	
 
-void HelloSpoon::moveJoint(int Joint, int value){
+void XL320::moveJoint(int Joint, int value){
 	int Address = XL_GOAL_POSITION_L;
 	
 	if(Joint == 1){
@@ -77,10 +65,10 @@ void HelloSpoon::moveJoint(int Joint, int value){
 		nDelay(NANO_TIME_DELAY);
 	}
 	
-	Serial1.flush();
+	this->stream->flush();
 }
 
-void HelloSpoon::setJointSpeed(int Joint, int value){
+void XL320::setJointSpeed(int Joint, int value){
 	int Address = XL_GOAL_SPEED_L;
 	if(Joint == 1){
 		sendPacket(1, Address, value);
@@ -96,10 +84,10 @@ void HelloSpoon::setJointSpeed(int Joint, int value){
 		sendPacket(Joint+1, Address, value);
 		nDelay(NANO_TIME_DELAY);
 	}
-	Serial1.flush();
+	this->stream->flush();
 }
 
-void HelloSpoon::LED(int Joint, char led_color[]){
+void XL320::LED(int Joint, char led_color[]){
 	int Address = XL_LED;
 	int val = 0;
 	
@@ -149,10 +137,10 @@ void HelloSpoon::LED(int Joint, char led_color[]){
 		sendPacket(Joint+1, Address, val);
 		nDelay(NANO_TIME_DELAY);
 	}
-	Serial1.flush();
+	this->stream->flush();
 }	
 
-void HelloSpoon::setJointTorque(int Joint, int value){
+void XL320::setJointTorque(int Joint, int value){
 	int Address = XL_GOAL_TORQUE;
 	if(Joint == 1){
 		sendPacket(1, Address, value);
@@ -168,10 +156,10 @@ void HelloSpoon::setJointTorque(int Joint, int value){
 		sendPacket(Joint+1, Address, value);
 		nDelay(NANO_TIME_DELAY);
 	}
-	Serial1.flush();
+	this->stream->flush();
 }
 
-void HelloSpoon::TorqueON(int Joint){
+void XL320::TorqueON(int Joint){
 	
 	int Address = XL_TORQUE_ENABLE;
 	int value = 1;
@@ -190,10 +178,10 @@ void HelloSpoon::TorqueON(int Joint){
 		sendPacket(Joint+1, Address, value);
 		nDelay(NANO_TIME_DELAY);
 	}
-	Serial1.flush();
+	this->stream->flush();
 }
 
-void HelloSpoon::TorqueOFF(int Joint){
+void XL320::TorqueOFF(int Joint){
 	
 	int Address = XL_TORQUE_ENABLE;
 	int value = 0;
@@ -212,43 +200,21 @@ void HelloSpoon::TorqueOFF(int Joint){
 		sendPacket(Joint+1, Address, value);
 		nDelay(NANO_TIME_DELAY);
 	}
-	Serial1.flush();
+	this->stream->flush();
 }
 
-void HelloSpoon::activateTrunk(){
-	for(int id = 1; id < 6; id++){
-		sendPacket(id, XL_TORQUE_ENABLE, 1);
-		nDelay(NANO_TIME_DELAY);
-		Serial1.flush();
-		sendPacket(id, XL_LED, 4);
-		nDelay(NANO_TIME_DELAY);
-		Serial1.flush();
-	}
-	
-}
 
-void HelloSpoon::deactivateTrunk(){
-	for(int id = 1; id < 6; id++){
-		sendPacket(id, XL_TORQUE_ENABLE, 0);
-		nDelay(NANO_TIME_DELAY);
-		Serial1.flush();
-		sendPacket(id, XL_LED, 5);
-		nDelay(NANO_TIME_DELAY);
-		Serial1.flush();
-	}
-}
-
-void HelloSpoon::quickTest(){
+void XL320::quickTest(){
 	
 	int position_tmp = 0;
 	
 	for(int id = 1; id < 6; id++){
 		sendPacket(id, XL_LED, random(1,7));
 		nDelay(NANO_TIME_DELAY);
-		Serial1.flush();
+		this->stream->flush();
 		sendPacket(id, XL_GOAL_SPEED_L, 200);
 		nDelay(NANO_TIME_DELAY);
-		Serial1.flush();
+		this->stream->flush();
 	}
 	
 	for(int id = 1; id < 6; id++){
@@ -258,41 +224,41 @@ void HelloSpoon::quickTest(){
 		if(id != 3){
 		    sendPacket(id, XL_GOAL_POSITION_L, position_tmp);
 			delay(1000);
-			Serial1.flush();
+			this->stream->flush();
 		}
 		
 		else{
 			sendPacket(3, XL_GOAL_POSITION_L, 512-position_tmp);
 			delay(1000);
-			Serial1.flush();
+			this->stream->flush();
 		}
 	}
 	
 	for(int id = 1; id < 6; id++){
 		sendPacket(id, XL_LED, 2);
 		nDelay(NANO_TIME_DELAY);
-		Serial1.flush();
+		this->stream->flush();
 		sendPacket(id, XL_GOAL_SPEED_L, 1023);
 		nDelay(NANO_TIME_DELAY);
-		Serial1.flush();
+		this->stream->flush();
 	}
 	
 	for(int id = 1; id < 6; id++){
 		sendPacket(id, XL_LED, 0);
 		nDelay(NANO_TIME_DELAY);
-		Serial1.flush();
+		this->stream->flush();
 	}
 	
 }
 
-int HelloSpoon::getSpoonLoad(){
+int XL320::getSpoonLoad(){
 	int spoon = RXsendPacket(5, XL_PRESENT_LOAD);
 	nDelay(NANO_TIME_DELAY);
-	Serial1.flush();
+	this->stream->flush();
 	return spoon;
 }
 
-int HelloSpoon::getJointPosition(int Joint){
+int XL320::getJointPosition(int Joint){
     int pos = 0;
 	switch(Joint){
 		case 1: pos = RXsendPacket(1, XL_PRESENT_POSITION); 
@@ -305,11 +271,11 @@ int HelloSpoon::getJointPosition(int Joint){
 		        break;
 	}
 	nDelay(NANO_TIME_DELAY);
-	Serial1.flush();
+	this->stream->flush();
 	return pos;
 }
 
-int HelloSpoon::getJointSpeed(int Joint){
+int XL320::getJointSpeed(int Joint){
     int speed = 0;
 	switch(Joint){
 		case 1: speed = RXsendPacket(1, XL_PRESENT_SPEED); 
@@ -322,11 +288,11 @@ int HelloSpoon::getJointSpeed(int Joint){
 		        break;
 	}
 	nDelay(NANO_TIME_DELAY);
-	Serial1.flush();
+	this->stream->flush();
 	return speed;
 }
 
-int HelloSpoon::getJointLoad(int Joint){
+int XL320::getJointLoad(int Joint){
     int load = 0;
 	switch(Joint){
 		case 1: load = RXsendPacket(1, XL_PRESENT_LOAD); 
@@ -339,11 +305,11 @@ int HelloSpoon::getJointLoad(int Joint){
 		        break;
 	}
 	nDelay(NANO_TIME_DELAY);
-	Serial1.flush();
+	this->stream->flush();
 	return load;
 }
 
-int HelloSpoon::getJointTemperature(int Joint){
+int XL320::getJointTemperature(int Joint){
     int temp = 0;
 	switch(Joint){
 		case 1: temp = RXsendPacket(1, XL_PRESENT_TEMPERATURE); 
@@ -356,11 +322,11 @@ int HelloSpoon::getJointTemperature(int Joint){
 		        break;
 	}
 	nDelay(NANO_TIME_DELAY);
-	Serial1.flush();
+	this->stream->flush();
 	return temp;
 }
 
-int HelloSpoon::isJointMoving(int Joint){
+int XL320::isJointMoving(int Joint){
     int motion = 0;
 	switch(Joint){
 		case 1: motion = RXsendPacket(1, XL_MOVING);
@@ -373,11 +339,11 @@ int HelloSpoon::isJointMoving(int Joint){
 		        break;
 	}
 	nDelay(NANO_TIME_DELAY);
-	Serial1.flush();
+	this->stream->flush();
 	return motion;
 }
 
-int sendPacket(int ID, int Address, int value){
+int XL320::sendPacket(int ID, int Address, int value){
 
 	/*Dynamixel 2.0 communication protocol
 	  used by Dynamixel XL-320 and Dynamixel PRO only.
@@ -441,14 +407,14 @@ int sendPacket(int ID, int Address, int value){
 
 }
 
-void nDelay(uint32 nTime){
+void XL320::nDelay(uint32_t nTime){
 	uint32 max;
 	for( max=0; max < nTime; max++){
 
 	}
 }
 
-int RXsendPacket(int ID, int Address){
+int XL320::RXsendPacket(int ID, int Address){
 
 	/*Dynamixel 2.0 communication protocol
 	  used by Dynamixel XL-320 and Dynamixel PRO only.

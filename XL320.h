@@ -16,8 +16,8 @@
  
  */
 
-#ifndef HELLOSPOON_H_
-#define HELLOSPOON_H_
+#ifndef XL320_H_
+#define XL320_H_
 
 /*EEPROM Area*/
 #define XL_MODEL_NUMBER_L           0
@@ -60,19 +60,25 @@
 #define Tx_MODE                     1
 #define Rx_MODE                     0
 
-
 #include <inttypes.h>
+#include <Stream.h>
 
-class HelloSpoon {
+class XL320 {
 private:
 	unsigned char Direction_Pin;
 	volatile char gbpParamEx[130+10];
+	Stream *stream;
+
+  int sendPacket(int ID, int Address, int value);
+  int RXsendPacket(int ID, int Address);
+  void nDelay(uint32_t nTime);
+
 
 public:
-	HelloSpoon();
-	virtual ~HelloSpoon();	
+	XL320(); 
+	virtual ~XL320();	
 	
-	void begin();
+	void begin(Stream &stream);
 	
 	void moveJoint(int Joint, int value);
 	void setJointSpeed(int Joint, int value);
@@ -81,8 +87,6 @@ public:
 
 	void TorqueON(int Joint);
 	void TorqueOFF(int Joint);
-	void deactivateTrunk();
-	void activateTrunk();
 
 	void quickTest();
 
