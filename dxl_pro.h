@@ -12,7 +12,6 @@
 extern "C" {
 #endif
 
-#include "libpandora_types.h"
 
 #define MAXNUM_TXPACKET     (255)//(65535)
 #define MAXNUM_RXPACKET     (255)//(65535)

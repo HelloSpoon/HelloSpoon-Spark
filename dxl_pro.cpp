@@ -8,9 +8,9 @@
 #include "dxl_pro.h"
 
 /* gbpRxBuffer    gbDXLWritePointer
-extern uint32 Dummy(uint32 tmp);
-extern void uDelay(uint32 uTime);
-extern void nDelay(uint32 nTime);*/
+extern uint32_t Dummy(uint32_t tmp);
+extern void uDelay(uint32_t uTime);
+extern void nDelay(uint32_t nTime);*/
 
 
 unsigned short update_crc(unsigned short crc_accum, unsigned char *data_blk_ptr, unsigned short data_blk_size)

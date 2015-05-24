@@ -408,7 +408,7 @@ int XL320::sendPacket(int ID, int Address, int value){
 }
 
 void XL320::nDelay(uint32_t nTime){
-	uint32 max;
+	uint32_t max;
 	for( max=0; max < nTime; max++){
 
 	}
