@@ -69,8 +69,6 @@ private:
 	volatile char gbpParamEx[130+10];
 	Stream *stream;
 
-  int sendPacket(int ID, int Address, int value);
-  int RXsendPacket(int ID, int Address);
   void nDelay(uint32_t nTime);
 
 
@@ -96,6 +94,9 @@ public:
 	int getJointLoad(int Joint);
 	int getJointTemperature(int Joint);
 	int isJointMoving(int Joint);
+
+        int sendPacket(int ID, int Address, int value);
+        int RXsendPacket(int ID, int Address);
 };
 
 #endif
