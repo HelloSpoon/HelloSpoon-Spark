@@ -190,92 +190,43 @@ int XL320::getSpoonLoad(){
 	return spoon;
 }
 
-int XL320::getJointPosition(int Joint){
+int XL320::getJointPosition(int id){
     int pos = 0;
-	switch(Joint){
-		case 1: pos = RXsendPacket(1, XL_PRESENT_POSITION); 
-		        break;
-		case 2: pos = RXsendPacket(2, XL_PRESENT_POSITION); 
-		        break;
-		case 3: pos = RXsendPacket(4, XL_PRESENT_POSITION); 
-		        break;
-		case 4: pos = RXsendPacket(5, XL_PRESENT_POSITION); 
-		        break;
-	}
-	nDelay(NANO_TIME_DELAY);
-	this->stream->flush();
-	return pos;
+    pos = RXsendPacket(id, XL_PRESENT_POSITION); 
+    this->stream->flush();
+    nDelay(NANO_TIME_DELAY);
+    return pos;
 }
 
-int XL320::getJointSpeed(int Joint){
-    int speed = 0;
-	switch(Joint){
-		case 1: speed = RXsendPacket(1, XL_PRESENT_SPEED); 
-		        break;
-		case 2: speed = RXsendPacket(2, XL_PRESENT_SPEED); 
-		        break;
-		case 3: speed = RXsendPacket(4, XL_PRESENT_SPEED); 
-		        break;
-		case 4: speed = RXsendPacket(5, XL_PRESENT_SPEED); 
-		        break;
-	}
-	nDelay(NANO_TIME_DELAY);
-	this->stream->flush();
-	return speed;
+int XL320::getJointSpeed(int id){
+    int speed = RXsendPacket(id, XL_PRESENT_SPEED); 
+    this->stream->flush();
+    nDelay(NANO_TIME_DELAY);
+    return speed;
 }
 
-int XL320::getJointLoad(int Joint){
-    int load = 0;
-	switch(Joint){
-		case 1: load = RXsendPacket(1, XL_PRESENT_LOAD); 
-		        break;
-		case 2: load = RXsendPacket(2, XL_PRESENT_LOAD); 
-		        break;
-		case 3: load = RXsendPacket(4, XL_PRESENT_LOAD); 
-		        break;
-		case 4: load = RXsendPacket(5, XL_PRESENT_LOAD); 
-		        break;
-	}
-	nDelay(NANO_TIME_DELAY);
-	this->stream->flush();
-	return load;
+int XL320::getJointLoad(int id){
+    int load = RXsendPacket(id, XL_PRESENT_LOAD); 
+    this->stream->flush();
+    nDelay(NANO_TIME_DELAY);
+    return load;
 }
 
-int XL320::getJointTemperature(int Joint){
-    int temp = 0;
-	switch(Joint){
-		case 1: temp = RXsendPacket(1, XL_PRESENT_TEMPERATURE); 
-		        break;
-		case 2: temp = RXsendPacket(2, XL_PRESENT_TEMPERATURE); 
-		        break;
-		case 3: temp = RXsendPacket(4, XL_PRESENT_TEMPERATURE); 
-		        break;
-		case 4: temp = RXsendPacket(5, XL_PRESENT_TEMPERATURE); 
-		        break;
-	}
-	nDelay(NANO_TIME_DELAY);
-	this->stream->flush();
-	return temp;
+int XL320::getJointTemperature(int id){
+    int temp = RXsendPacket(id, XL_PRESENT_TEMPERATURE); 
+    this->stream->flush();
+    nDelay(NANO_TIME_DELAY);
+    return temp;
 }
 
-int XL320::isJointMoving(int Joint){
-    int motion = 0;
-	switch(Joint){
-		case 1: motion = RXsendPacket(1, XL_MOVING);
-		        break;
-		case 2: motion = RXsendPacket(2, XL_MOVING); 
-		        break;
-		case 3: motion = RXsendPacket(4, XL_MOVING); 
-		        break;
-		case 4: motion = RXsendPacket(5, XL_MOVING); 
-		        break;
-	}
-	nDelay(NANO_TIME_DELAY);
-	this->stream->flush();
-	return motion;
+int XL320::isJointMoving(int id){
+    int motion = RXsendPacket(id, XL_MOVING);
+    this->stream->flush();
+    nDelay(NANO_TIME_DELAY);
+    return motion;
 }
 
-int XL320::sendPacket(int ID, int Address, int value){
+int XL320::sendPacket(int id, int Address, int value){
 
 	/*Dynamixel 2.0 communication protocol
 	  used by Dynamixel XL-320 and Dynamixel PRO only.
@@ -350,7 +301,7 @@ int XL320::flush() {
     this->stream->flush();
 }
 
-int XL320::RXsendPacket(int ID, int Address){
+int XL320::RXsendPacket(int id, int Address){
 
 	/*Dynamixel 2.0 communication protocol
 	  used by Dynamixel XL-320 and Dynamixel PRO only.
@@ -397,13 +348,13 @@ int XL320::RXsendPacket(int ID, int Address){
 
 	wpacklen += 2;
 
-	switchCom(Direction_Pin, Tx_MODE);
+	//switchCom(Direction_Pin, Tx_MODE);
 
 	for(cont = 0; cont < wpacklen; cont++)
-    {
-    	sendData(txbuffer[cont]);
-    }
+	{
+	   sendData(txbuffer[cont]);
+	}
 
-	switchCom(Direction_Pin, Rx_MODE);
+	//switchCom(Direction_Pin, Rx_MODE);
 
 }

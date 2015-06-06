@@ -89,14 +89,14 @@ public:
 	void quickTest();
 
 	int getSpoonLoad();
-	int getJointPosition(int Joint);
-	int getJointSpeed(int Joint);
-	int getJointLoad(int Joint);
-	int getJointTemperature(int Joint);
-	int isJointMoving(int Joint);
+	int getJointPosition(int id);
+	int getJointSpeed(int id);
+	int getJointLoad(int id);
+	int getJointTemperature(int id);
+	int isJointMoving(int id);
 
-        int sendPacket(int ID, int Address, int value);
-        int RXsendPacket(int ID, int Address);
+        int sendPacket(int id, int Address, int value);
+        int RXsendPacket(int id, int Address);
 
 	int flush();
 };
