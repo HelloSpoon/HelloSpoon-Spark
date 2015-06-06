@@ -39,8 +39,11 @@ void loop() {
   // LED test.. let's randomly set the colour (0-7)
 //  robot.LED(servoID, &rgb[random(0,7)] );
 
+  // LED test.. select a random servoID and colour
+  robot.LED(random(1,4), &rgb[random(0,7)] );
+
   // LED colour test.. cycle between RGB, increment the colour and return 1 after 3
-  robot.LED(servoID, &rgb[ledColour]);
+//  robot.LED(servoID, &rgb[ledColour]);
   ledColour = (ledColour + 1) % 3;
 
   // Set a delay to account for the receive delay period
@@ -49,8 +52,11 @@ void loop() {
   // Servo test.. let's randomly set the position (0-1023)
 //  robot.moveJoint(servoID, random(0, 1023));
 
+  // Servo test.. select a random servoID and colour
+  robot.moveJoint(random(1,4), random(0, 1023));
+
   // Servo test.. increment the servo position by 100 each loop
-  robot.moveJoint(servoID, servoPosition);
+//  robot.moveJoint(servoID, servoPosition);
   servoPosition = (servoPosition + 100) % 1023;
   
   // Set a delay to account for the receive delay period
