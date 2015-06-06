@@ -78,13 +78,13 @@ public:
 	
 	void begin(Stream &stream);
 	
-	void moveJoint(int Joint, int value);
-	void setJointSpeed(int Joint, int value);
-	void LED(int Joint, char led_color[]);
-	void setJointTorque(int Joint, int value);
+	void moveJoint(int id, int value);
+	void setJointSpeed(int id, int value);
+	void LED(int id, char led_color[]);
+	void setJointTorque(int id, int value);
 
-	void TorqueON(int Joint);
-	void TorqueOFF(int Joint);
+	void TorqueON(int id);
+	void TorqueOFF(int id);
 
 	void quickTest();
 
@@ -97,6 +97,8 @@ public:
 
         int sendPacket(int ID, int Address, int value);
         int RXsendPacket(int ID, int Address);
+
+	int flush();
 };
 
 #endif

@@ -47,47 +47,25 @@ void XL320::begin(Stream &stream)
     this->stream = &stream;
 }	
 
-void XL320::moveJoint(int Joint, int value){
+void XL320::moveJoint(int id, int value){
 	int Address = XL_GOAL_POSITION_L;
 	
-	if(Joint == 1){
-		sendPacket(1, Address, value);
-		nDelay(NANO_TIME_DELAY);
-	}
-	else if(Joint == 2){
-		sendPacket(2, Address, value);
-		nDelay(NANO_TIME_DELAY);
-		sendPacket(3, Address, 1023-value);
-		nDelay(NANO_TIME_DELAY);
-	}
-	else{
-		sendPacket(Joint+1, Address, value);
-		nDelay(NANO_TIME_DELAY);
-	}
-	
+	sendPacket(id, Address, value);
 	this->stream->flush();
+
+	nDelay(NANO_TIME_DELAY);
 }
 
-void XL320::setJointSpeed(int Joint, int value){
+void XL320::setJointSpeed(int id, int value){
 	int Address = XL_GOAL_SPEED_L;
-	if(Joint == 1){
-		sendPacket(1, Address, value);
-		nDelay(NANO_TIME_DELAY);
-	}
-	else if(Joint == 2){
-		sendPacket(2, Address, value);
-		nDelay(NANO_TIME_DELAY);
-		sendPacket(3, Address, value);
-		nDelay(NANO_TIME_DELAY);
-	}
-	else{
-		sendPacket(Joint+1, Address, value);
-		nDelay(NANO_TIME_DELAY);
-	}
+	sendPacket(id, Address, value);
 	this->stream->flush();
+
+	nDelay(NANO_TIME_DELAY);
+
 }
 
-void XL320::LED(int Joint, char led_color[]){
+void XL320::LED(int id, char led_color[]){
 	int Address = XL_LED;
 	int val = 0;
 	
@@ -123,84 +101,38 @@ void XL320::LED(int Joint, char led_color[]){
 		val = 0;
 	}
 	
-	if(Joint == 1){
-		sendPacket(1, Address, val);
-		nDelay(NANO_TIME_DELAY);
-	}
-	else if(Joint == 2){
-		sendPacket(2, Address, val);
-		nDelay(NANO_TIME_DELAY);
-		sendPacket(3, Address, val);
-		nDelay(NANO_TIME_DELAY);
-	}
-	else{
-		sendPacket(Joint+1, Address, val);
-		nDelay(NANO_TIME_DELAY);
-	}
+	sendPacket(id, Address, val);
 	this->stream->flush();
+	
+	nDelay(NANO_TIME_DELAY);
 }	
 
-void XL320::setJointTorque(int Joint, int value){
+void XL320::setJointTorque(int id, int value){
 	int Address = XL_GOAL_TORQUE;
-	if(Joint == 1){
-		sendPacket(1, Address, value);
-		nDelay(NANO_TIME_DELAY);
-	}
-	else if(Joint == 2){
-		sendPacket(2, Address, value);
-		nDelay(NANO_TIME_DELAY);
-		sendPacket(3, Address, value);
-		nDelay(NANO_TIME_DELAY);
-	}
-	else{
-		sendPacket(Joint+1, Address, value);
-		nDelay(NANO_TIME_DELAY);
-	}
+	sendPacket(id, Address, value);
 	this->stream->flush();
+	nDelay(NANO_TIME_DELAY);
+
 }
 
-void XL320::TorqueON(int Joint){
+void XL320::TorqueON(int id){
 	
 	int Address = XL_TORQUE_ENABLE;
 	int value = 1;
 	
-	if(Joint == 1){
-		sendPacket(1, Address, value);
-		nDelay(NANO_TIME_DELAY);
-	}
-	else if(Joint == 2){
-		sendPacket(2, Address, value);
-		nDelay(NANO_TIME_DELAY);
-		sendPacket(3, Address, value);
-		nDelay(NANO_TIME_DELAY);
-	}
-	else{
-		sendPacket(Joint+1, Address, value);
-		nDelay(NANO_TIME_DELAY);
-	}
+	sendPacket(id, Address, value);
 	this->stream->flush();
+	nDelay(NANO_TIME_DELAY);
 }
 
-void XL320::TorqueOFF(int Joint){
+void XL320::TorqueOFF(int id){
 	
 	int Address = XL_TORQUE_ENABLE;
 	int value = 0;
 	
-	if(Joint == 1){
-		sendPacket(1, Address, value);
-		nDelay(NANO_TIME_DELAY);
-	}
-	else if(Joint == 2){
-		sendPacket(2, Address, value);
-		nDelay(NANO_TIME_DELAY);
-		sendPacket(3, Address, value);
-		nDelay(NANO_TIME_DELAY);
-	}
-	else{
-		sendPacket(Joint+1, Address, value);
-		nDelay(NANO_TIME_DELAY);
-	}
+	sendPacket(id, Address, value);
 	this->stream->flush();
+	nDelay(NANO_TIME_DELAY);
 }
 
 
@@ -412,6 +344,10 @@ void XL320::nDelay(uint32_t nTime){
 	for( max=0; max < nTime; max++){
 
 	}
+}
+
+int XL320::flush() {
+    this->stream->flush();
 }
 
 int XL320::RXsendPacket(int ID, int Address){
