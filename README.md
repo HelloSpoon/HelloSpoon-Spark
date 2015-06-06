@@ -13,7 +13,7 @@ Restart Arduino app. :-)
 
 Open the example Arduino sketch to see how it works:
 
-``` File > Examples > XL320_servo_example ```
+``` File > Examples > XL320 > XL320_servo_example ```
 
 ### Hardware
 
@@ -28,6 +28,14 @@ Looking from above, with the servo head at the top, wire the left plug of the se
 * PIN3: Serial TX
 
 ![Dynamixel XL-320 wiring diagram](http://hackerspace-adelaide.org.au/w/images/f/f0/XL320-wiring.png)
+
+### Setting the servo serial baud rate & servoID
+
+We've included some example sketches to help test and setup your servos. Out of the box they're set to communicate via serial at 1Mbps, so you might want to set them down to something more managable by Arduino at 115200.
+
+Follow the instructions in the sketch ```XL320_servo_set_baud_rate_or_id.ino``` and don't forget to power cycle the servos in between setting anything.
+
+Note: when setting the ServoID, the servos default down to 9600 baud, so after you set the servoID you'll need to set the baud rate back up to 115200.
 
 ### More information
 
