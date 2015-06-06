@@ -9,6 +9,11 @@ XL320 robot;
 // Set the SoftwareSerial RX & TX pins
 SoftwareSerial mySerial(10, 11); // (RX, TX)
 
+// Set some variables for incrementing position & LED colour
+char rgb[] = "rgbypcwo";
+int servoPosition = 0;
+int ledColour = 0;
+
 void setup() {
 
   // Talking standard serial, so connect servo data line to Digital TX 1
@@ -29,11 +34,22 @@ void setup() {
 void loop() {
 
   // LED test.. let's randomly set the colour (0-7)
-  char rgb[] = "rgybpcwo";
-  robot.LED(1, &rgb[random(0,7)] );
-  delay(300);
+//  robot.LED(1, &rgb[random(0,7)] );
+
+  // LED colour test.. cycle between RGB, increment the colour and return 1 after 3
+  robot.LED(1, &rgb[ledColour]);
+  ledColour = (ledColour + 1) % 3;
+
+  // Set a delay to account for the receive delay period
+  delay(100);
 
   // Servo test.. let's randomly set the position (0-1023)
-  robot.moveJoint(1, random(0, 1023));
-  delay(1000);
+//  robot.moveJoint(1, random(0, 1023));
+
+  // Servo test.. increment the servo position by 100 each loop
+  robot.moveJoint(1, servoPosition);
+  servoPosition = (servoPosition + 100) % 1023;
+  
+  // Set a delay to account for the receive delay period
+  delay(100);
 }
