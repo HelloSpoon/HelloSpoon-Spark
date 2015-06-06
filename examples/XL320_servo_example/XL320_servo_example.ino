@@ -14,6 +14,9 @@ char rgb[] = "rgbypcwo";
 int servoPosition = 0;
 int ledColour = 0;
 
+// Set the default servoID to talk to
+int servoID = 1;
+
 void setup() {
 
   // Talking standard serial, so connect servo data line to Digital TX 1
@@ -24,30 +27,30 @@ void setup() {
   mySerial.begin(115200);
 
   // Initialise your robot
-  robot.begin(mySerial); // Hand in the serial object you're using
+  robot.begin(Serial); // Hand in the serial object you're using
   
   // I like fast moving servos, so set the joint speed to max!
-  robot.setJointSpeed(1, 1023);
+  robot.setJointSpeed(servoID, 1023);
 
 }
 
 void loop() {
 
   // LED test.. let's randomly set the colour (0-7)
-//  robot.LED(1, &rgb[random(0,7)] );
+//  robot.LED(servoID, &rgb[random(0,7)] );
 
   // LED colour test.. cycle between RGB, increment the colour and return 1 after 3
-  robot.LED(1, &rgb[ledColour]);
+  robot.LED(servoID, &rgb[ledColour]);
   ledColour = (ledColour + 1) % 3;
 
   // Set a delay to account for the receive delay period
   delay(100);
 
   // Servo test.. let's randomly set the position (0-1023)
-//  robot.moveJoint(1, random(0, 1023));
+//  robot.moveJoint(servoID, random(0, 1023));
 
   // Servo test.. increment the servo position by 100 each loop
-  robot.moveJoint(1, servoPosition);
+  robot.moveJoint(servoID, servoPosition);
   servoPosition = (servoPosition + 100) % 1023;
   
   // Set a delay to account for the receive delay period
