@@ -96,6 +96,8 @@ public:
 	int isJointMoving(int id);
 
         int sendPacket(int id, int Address, int value);
+	int readPacket(unsigned char *buffer, size_t size);
+
         int RXsendPacket(int id, int Address);
 
 	int flush();

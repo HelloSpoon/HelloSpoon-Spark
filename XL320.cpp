@@ -249,7 +249,7 @@ int XL320::sendPacket(int id, int Address, int value){
 	txbuffer[2] = 0xfd;
 	txbuffer[3] = 0x00;
 
-	txbuffer[4] = ID;
+	txbuffer[4] = id;
 	txbuffer[5] = DXL_LOBYTE(4+3);
 	txbuffer[6] = DXL_HIBYTE(4+3);
 
@@ -273,7 +273,7 @@ int XL320::sendPacket(int id, int Address, int value){
 
 	wpacklen += 2;
 
-	switchCom(Direction_Pin, Tx_MODE);
+	//switchCom(Direction_Pin, Tx_MODE);
 
 	for(cont = 0; cont < wpacklen; cont++)
     {
@@ -291,10 +291,12 @@ int XL320::sendPacket(int id, int Address, int value){
 }
 
 void XL320::nDelay(uint32_t nTime){
+    /*
 	uint32_t max;
 	for( max=0; max < nTime; max++){
 
 	}
+    */
 }
 
 int XL320::flush() {
@@ -324,7 +326,7 @@ int XL320::RXsendPacket(int id, int Address){
 	txbuffer[2] = 0xfd;
 	txbuffer[3] = 0x00;
 
-	txbuffer[4] = ID;
+	txbuffer[4] = id;
 	txbuffer[5] = DXL_LOBYTE(4+3);
 	txbuffer[6] = DXL_HIBYTE(4+3);
 
@@ -358,3 +360,85 @@ int XL320::RXsendPacket(int id, int Address){
 	//switchCom(Direction_Pin, Rx_MODE);
 
 }
+
+// from http://stackoverflow.com/a/133363/195061
+
+#define FSM
+#define STATE(x)        s_##x : if(!stream->readBytes(&BUFFER[I++],1)) goto sx_timeout ; if(I>=SIZE) goto sx_overflow; sn_##x :
+#define LASTBYTE        (BUFFER[I-1])
+#define NEXTSTATE(x)    goto s_##x
+#define NEXTSTATE_NR(x) goto sn_##x
+#define OVERFLOW        sx_overflow :
+#define TIMEOUT         sx_timeout :
+
+int XL320::readPacket(unsigned char *BUFFER, size_t SIZE) {
+    int C;
+    int I = 0;    
+
+    int length = 0;
+
+      // define fsm here
+      // write in to buffer 
+      // keep track of index
+      // return if we overflox max_txlength(?)
+      // return if reads timeout? setTimeout behaviour?	
+
+    FSM {
+      STATE(start) {
+	if(LASTBYTE==0xFF) NEXTSTATE(header_ff_1);
+	I=0; NEXTSTATE(start);
+      }
+      STATE(header_ff_1) {
+	if(LASTBYTE==0xFF) NEXTSTATE(header_ff_2);
+	I=0; NEXTSTATE(start);	
+      }
+      STATE(header_ff_2) {
+	if(LASTBYTE==0xFD) NEXTSTATE(header_fd);
+      }
+      STATE(header_fd) {
+	NEXTSTATE(header_reserved);
+      }
+      STATE(header_reserved) {
+	NEXTSTATE(id);
+      }
+      STATE(id) {
+	length = LASTBYTE;
+	NEXTSTATE(length_1);
+      }
+      STATE(length_1) {
+	length += LASTBYTE<<8; // eg: length=4
+	NEXTSTATE(length_2);
+      }
+      STATE(length_2) {
+	  
+	  // check length
+	NEXTSTATE(instr);
+      }
+      STATE(instr) {
+        // check length. I==9 here
+        // action and reboot commands have no parameters
+	if(I-length<6) NEXTSTATE(checksum_1);
+        NEXTSTATE(params);
+      }
+      STATE(params) {
+	  // check length
+	  if(I-length<6) NEXTSTATE(checksum_1);
+	  NEXTSTATE(checksum_1);
+      }
+      STATE(checksum_1) {
+	  NEXTSTATE(checksum_2);
+      }
+      STATE(checksum_2) {
+	  // done
+	  return I; 
+      }
+      OVERFLOW {
+          return -1;
+      }
+      TIMEOUT {
+	  return -2;
+      }
+
+    }
+}
+
