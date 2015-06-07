@@ -101,6 +101,21 @@ public:
         int RXsendPacket(int id, int Address);
 
 	int flush();
+
+	class Packet {
+	  public:
+	    unsigned char *data;
+	    size_t data_size;
+
+	    Packet(unsigned char *data, size_t size);
+	    unsigned char getId();
+	    int getLength();
+	    int getParameterCount();
+	    unsigned char getInstruction();
+            unsigned char getParameter(int n);
+	    bool isValid();
+
+	};
 };
 
 #endif

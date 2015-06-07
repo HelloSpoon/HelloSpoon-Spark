@@ -442,3 +442,49 @@ int XL320::readPacket(unsigned char *BUFFER, size_t SIZE) {
     }
 }
 
+/*
+	class Packet {
+	  public:
+	    unsigned char *data;
+	    size_t data_size;
+
+	    unsigned char getId();
+	    int getLength();
+	    int getParameterCount();
+	    unsigned char getInstruction();
+            unsigned char getParameter(int n);
+	    bool isValid();
+
+	}
+	*/
+
+XL320::Packet::Packet(unsigned char *data, size_t size) {
+    this->data = data;
+    this->data_size = size;
+}
+
+unsigned char XL320::Packet::getId() {
+    return data[4];
+}
+
+int XL320::Packet::getLength() {
+    return data[5]+(data[6]<<8);
+}
+
+int XL320::Packet::getParameterCount() {
+    return getLength()-3;
+}
+
+unsigned char XL320::Packet::getInstruction() {
+    return data[7];
+}
+
+unsigned char XL320::Packet::getParameter(int n) {
+    return data[8+n];
+}
+
+bool XL320::Packet::isValid() {
+    int length = getLength();
+    unsigned short storedChecksum = data[length+5]+(data[length+6]<<8);
+    return storedChecksum == update_crc(0,data,length+5);
+}
