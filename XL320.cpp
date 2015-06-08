@@ -20,6 +20,7 @@
 #include "Arduino.h"
 #include "dxl_pro.h"
 #include "XL320.h"
+#include <stdlib.h>
 
 // Macro for the selection of the Serial Port
 #define sendData(args)  (this->stream->write(args))    // Write Over Serial
@@ -232,62 +233,25 @@ int XL320::sendPacket(int id, int Address, int value){
 	  used by Dynamixel XL-320 and Dynamixel PRO only.
 	*/
 
-	word cont, wchecksum, wpacklen;
-	volatile char gbpParamEx[130+10];
-	unsigned char Direction_Pin;
-
 	byte txbuffer[255];
 
-	gbpParamEx[0]	= (unsigned char)DXL_LOBYTE(Address);
-	gbpParamEx[1]	= (unsigned char)DXL_HIBYTE(Address);
+	unsigned char params[] = {
+	    DXL_LOBYTE(Address),
+	    DXL_HIBYTE(Address),
+	    DXL_LOBYTE(value),
+	    DXL_HIBYTE(value)
+	};
 
-	gbpParamEx[2]	= DXL_LOBYTE(value);
-	gbpParamEx[3]	= DXL_HIBYTE(value);
+	Packet p = Packet(txbuffer,255,id,0x03,params,4);
 
-	txbuffer[0] = 0xff;
-	txbuffer[1] = 0xff;
-	txbuffer[2] = 0xfd;
-	txbuffer[3] = 0x00;
+	int cont;
 
-	txbuffer[4] = id;
-	txbuffer[5] = DXL_LOBYTE(4+3);
-	txbuffer[6] = DXL_HIBYTE(4+3);
-
-	txbuffer[7] = 0x03;
-
-	for(cont = 0; cont < 4; cont++)
-    	{
-        	txbuffer[cont+8] = gbpParamEx[cont];
-    	}
-
-	wchecksum = 0;
-
-	wpacklen = DXL_MAKEWORD(txbuffer[5], txbuffer[6])+5;
-	if(wpacklen > (MAXNUM_TXPACKET)){
-        return 0;
-    }
-
-	wchecksum = update_crc(0, txbuffer, wpacklen);
-	txbuffer[wpacklen] = DXL_LOBYTE(wchecksum);
-	txbuffer[wpacklen+1] = DXL_HIBYTE(wchecksum);
-
-	wpacklen += 2;
-
-	//switchCom(Direction_Pin, Tx_MODE);
-
-	for(cont = 0; cont < wpacklen; cont++)
-    {
+	for(cont = 0; cont < p.getLength()+7; cont++)
+        {
     	sendData(txbuffer[cont]);
-    	nDelay(NANO_TIME_DELAY);
-    }
+        }
     
-    //Clean buffer
-	for(cont = 0; cont < wpacklen; cont++)
-    {
-    	txbuffer[cont] = 0;
-    }
-	//switchCom(Direction_Pin, Rx_MODE);
-
+       return cont;	
 }
 
 void XL320::nDelay(uint32_t nTime){
@@ -433,25 +397,49 @@ int XL320::readPacket(unsigned char *BUFFER, size_t SIZE) {
     }
 }
 
-/*
-	class Packet {
-	  public:
-	    unsigned char *data;
-	    size_t data_size;
-
-	    unsigned char getId();
-	    int getLength();
-	    int getParameterCount();
-	    unsigned char getInstruction();
-            unsigned char getParameter(int n);
-	    bool isValid();
-
-	}
-	*/
+XL320::Packet::Packet(
+	unsigned char *data,
+	size_t data_size,
+	unsigned char id,
+	unsigned char instruction,
+	unsigned char *parameter_data,
+	size_t parameter_data_size) {
+    if(!data) {
+	this->data_size = 10+parameter_data_size;   
+	this->data = (unsigned char*)malloc(data_size);
+	this->freeData = true;
+    } else {
+	this->data;
+	this->data_size;
+	this->freeData = false;
+    }
+    data[0]=0xFF;
+    data[1]=0xFF;
+    data[2]=0xFD;
+    data[3]=0x00;
+    data[4]=id;
+    unsigned int length=3+parameter_data_size;
+    data[5]=length&0xff;
+    data[6]=(length>>8)&0xff;
+    data[7]=instruction;
+    for(int i=0;i<parameter_data_size;i++) {
+	data[8+i]=parameter_data[i];
+    }
+    unsigned short crc = update_crc(0,data,8+parameter_data_size);
+    data[8+parameter_data_size]=crc&0xff;
+    data[9+parameter_data_size]=(crc>>8)&0xff;
+}
 
 XL320::Packet::Packet(unsigned char *data, size_t size) {
     this->data = data;
     this->data_size = size;
+    this->freeData = false;
+}
+
+XL320::Packet::~Packet() {
+    if(this->freeData==true) {
+	free(this->data);
+    }
 }
 
 unsigned char XL320::Packet::getId() {

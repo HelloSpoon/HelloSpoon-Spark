@@ -103,11 +103,23 @@ public:
 	int flush();
 
 	class Packet {
+	  bool freeData;
 	  public:
 	    unsigned char *data;
 	    size_t data_size;
 
+	    // wrap a received data stream in an Packet object for analysis
 	    Packet(unsigned char *data, size_t size);
+	    // build a packet into the pre-allocated data array
+	    // if data is null it will be malloc'ed and free'd on destruction.
+	    Packet(
+	      unsigned char *data, 
+	      size_t        size,
+	      unsigned char id,
+	      unsigned char instruction,
+	      unsigned char *parameter_data,
+	      size_t        parameter_data_size); 
+	    ~Packet();
 	    unsigned char getId();
 	    int getLength();
 	    int getParameterCount();
