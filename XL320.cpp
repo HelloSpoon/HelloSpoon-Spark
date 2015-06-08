@@ -396,37 +396,28 @@ int XL320::readPacket(unsigned char *BUFFER, size_t SIZE) {
 	if(LASTBYTE==0xFD) NEXTSTATE(header_fd);
       }
       STATE(header_fd) {
-	NEXTSTATE(header_reserved);
       }
       STATE(header_reserved) {
-	NEXTSTATE(id);
       }
       STATE(id) {
 	length = LASTBYTE;
-	NEXTSTATE(length_1);
       }
       STATE(length_1) {
 	length += LASTBYTE<<8; // eg: length=4
-	NEXTSTATE(length_2);
       }
       STATE(length_2) {
-	  
-	  // check length
-	NEXTSTATE(instr);
       }
       STATE(instr) {
         // check length. I==9 here
         // action and reboot commands have no parameters
-	if(I-length<6) NEXTSTATE(checksum_1);
-        NEXTSTATE(params);
+	if(I-length>=5) NEXTSTATE(checksum_1);
       }
       STATE(params) {
 	  // check length
-	  if(I-length<6) NEXTSTATE(checksum_1);
-	  NEXTSTATE(checksum_1);
+	  if(I-length>=5) NEXTSTATE(checksum_1);
+	  NEXTSTATE(params);
       }
       STATE(checksum_1) {
-	  NEXTSTATE(checksum_2);
       }
       STATE(checksum_2) {
 	  // done
