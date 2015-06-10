@@ -1,3 +1,11 @@
+
+// ========================================
+// Dynamixel XL-320 Arduino library example
+// ========================================
+
+// Read more:
+// https://github.com/hackerspace-adelaide/XL320
+
 #include "XL320.h"
 
 // Name your robot!
