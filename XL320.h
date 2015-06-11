@@ -122,6 +122,7 @@ public:
 	    ~Packet();
 	    unsigned char getId();
 	    int getLength();
+	    int getSize();
 	    int getParameterCount();
 	    unsigned char getInstruction();
             unsigned char getParameter(int n);

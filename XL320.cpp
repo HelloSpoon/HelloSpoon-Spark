@@ -244,14 +244,12 @@ int XL320::sendPacket(int id, int Address, int value){
 
 	Packet p = Packet(txbuffer,255,id,0x03,params,4);
 
-	int cont;
 
-	for(cont = 0; cont < p.getLength()+7; cont++)
-        {
-    	sendData(txbuffer[cont]);
-        }
-    
-       return cont;	
+	int size = p.getSize();
+
+	stream->write(txbuffer,size);
+
+        return size;	
 }
 
 void XL320::nDelay(uint32_t nTime){
@@ -404,30 +402,30 @@ XL320::Packet::Packet(
 	unsigned char instruction,
 	unsigned char *parameter_data,
 	size_t parameter_data_size) {
+    unsigned int length=3+parameter_data_size;
     if(!data) {
-	this->data_size = 10+parameter_data_size;   
+	this->data_size = 7+length;   
 	this->data = (unsigned char*)malloc(data_size);
 	this->freeData = true;
     } else {
-	this->data;
-	this->data_size;
+	this->data = data;
+	this->data_size = data_size;
 	this->freeData = false;
     }
-    data[0]=0xFF;
-    data[1]=0xFF;
-    data[2]=0xFD;
-    data[3]=0x00;
-    data[4]=id;
-    unsigned int length=3+parameter_data_size;
-    data[5]=length&0xff;
-    data[6]=(length>>8)&0xff;
-    data[7]=instruction;
+    this->data[0]=0xFF;
+    this->data[1]=0xFF;
+    this->data[2]=0xFD;
+    this->data[3]=0x00;
+    this->data[4]=id;
+    this->data[5]=length&0xff;
+    this->data[6]=(length>>8)&0xff;
+    this->data[7]=instruction;
     for(int i=0;i<parameter_data_size;i++) {
-	data[8+i]=parameter_data[i];
+	this->data[8+i]=parameter_data[i];
     }
-    unsigned short crc = update_crc(0,data,8+parameter_data_size);
-    data[8+parameter_data_size]=crc&0xff;
-    data[9+parameter_data_size]=(crc>>8)&0xff;
+    unsigned short crc = update_crc(0,this->data,this->getSize()-2);
+    this->data[8+parameter_data_size]=crc&0xff;
+    this->data[9+parameter_data_size]=(crc>>8)&0xff;
 }
 
 XL320::Packet::Packet(unsigned char *data, size_t size) {
@@ -447,7 +445,11 @@ unsigned char XL320::Packet::getId() {
 }
 
 int XL320::Packet::getLength() {
-    return data[5]+(data[6]<<8);
+    return data[5]+((data[6]&0xff)<<8);
+}
+
+int XL320::Packet::getSize() {
+    return getLength()+7;
 }
 
 int XL320::Packet::getParameterCount() {
