@@ -99,6 +99,7 @@ public:
 	int readPacket(unsigned char *buffer, size_t size);
 
 	int RXsendPacket(int id, int Address);
+	int RXsendPacket(int id, int Address, int size);
 
 	int flush();
 
@@ -112,13 +113,14 @@ public:
 	    Packet(unsigned char *data, size_t size);
 	    // build a packet into the pre-allocated data array
 	    // if data is null it will be malloc'ed and free'd on destruction.
+	    
 	    Packet(
 	      unsigned char *data, 
 	      size_t        size,
 	      unsigned char id,
 	      unsigned char instruction,
-	      unsigned char *parameter_data,
-	      size_t        parameter_data_size); 
+	      int           parameter_data_size,
+	      ...);
 	    ~Packet();
 	    unsigned char getId();
 	    int getLength();
@@ -127,6 +129,8 @@ public:
 	    unsigned char getInstruction();
             unsigned char getParameter(int n);
 	    bool isValid();
+
+	    void toStream(Stream &stream);
 
 	};
 };

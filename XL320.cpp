@@ -21,6 +21,7 @@
 #include "dxl_pro.h"
 #include "XL320.h"
 #include <stdlib.h>
+#include <stdarg.h>
 
 // Macro for the selection of the Serial Port
 #define sendData(args)  (this->stream->write(args))    // Write Over Serial
@@ -186,17 +187,23 @@ void XL320::quickTest(){
 
 int XL320::getSpoonLoad(){
 	int spoon = RXsendPacket(5, XL_PRESENT_LOAD);
-	nDelay(NANO_TIME_DELAY);
 	this->stream->flush();
 	return spoon;
 }
 
 int XL320::getJointPosition(int id){
-    int pos = 0;
-    pos = RXsendPacket(id, XL_PRESENT_POSITION); 
+    unsigned char buffer[255];
+    RXsendPacket(id, XL_PRESENT_POSITION, 2); 
     this->stream->flush();
-    nDelay(NANO_TIME_DELAY);
-    return pos;
+    if(this->readPacket(buffer,255)>0) {
+      Packet p(buffer,255);
+      if(p.isValid() && p.getParameterCount()>=3) {
+	return (p.getParameter(1))|(p.getParameter(2)<<8);
+      } else {
+	return -1;
+      }
+    }
+    return -2;
 }
 
 int XL320::getJointSpeed(int id){
@@ -229,28 +236,32 @@ int XL320::isJointMoving(int id){
 
 int XL320::sendPacket(int id, int Address, int value){
 
-	/*Dynamixel 2.0 communication protocol
-	  used by Dynamixel XL-320 and Dynamixel PRO only.
-	*/
+    /*Dynamixel 2.0 communication protocol
+      used by Dynamixel XL-320 and Dynamixel PRO only.
+    */
 
-	byte txbuffer[255];
+    // technically i think we need 14bytes for this packet 
 
-	unsigned char params[] = {
-	    DXL_LOBYTE(Address),
-	    DXL_HIBYTE(Address),
-	    DXL_LOBYTE(value),
-	    DXL_HIBYTE(value)
-	};
+    const int bufsize = 16;
 
-	Packet p = Packet(txbuffer,255,id,0x03,params,4);
+    byte txbuffer[bufsize];
+
+    Packet p(txbuffer,bufsize,id,0x03,4,
+	DXL_LOBYTE(Address),
+	DXL_HIBYTE(Address),
+	DXL_LOBYTE(value),
+	DXL_HIBYTE(value));
 
 
-	int size = p.getSize();
+    int size = p.getSize();
+    stream->write(txbuffer,size);
 
-	stream->write(txbuffer,size);
+    //stream->write(txbuffer,bufsize);
 
-        return size;	
+    return bufsize;	
 }
+
+
 
 void XL320::nDelay(uint32_t nTime){
     /*
@@ -265,69 +276,39 @@ int XL320::flush() {
     this->stream->flush();
 }
 
-int XL320::RXsendPacket(int id, int Address){
+int XL320::RXsendPacket(int id, int Address) {
+    return this->RXsendPacket(id, Address, 2);
+} 
+
+int XL320::RXsendPacket(int id, int Address, int size){
 
 	/*Dynamixel 2.0 communication protocol
 	  used by Dynamixel XL-320 and Dynamixel PRO only.
 	*/
 
-	word cont, wchecksum, wpacklen;
-	volatile char gbpParamEx[130+10];
-	unsigned char Direction_Pin;
+    const int bufsize = 16;
 
-	byte txbuffer[255];
+    byte txbuffer[bufsize];
 
-	gbpParamEx[0]	= (unsigned char)DXL_LOBYTE(Address);
-	gbpParamEx[1]	= (unsigned char)DXL_HIBYTE(Address);
+    Packet p(txbuffer,bufsize,id,0x02,4,
+	DXL_LOBYTE(Address),
+	DXL_HIBYTE(Address),
+	DXL_LOBYTE(size),
+	DXL_HIBYTE(size));
 
-	gbpParamEx[2]	= 2;
-	gbpParamEx[3]	= 0;
 
-	txbuffer[0] = 0xff;
-	txbuffer[1] = 0xff;
-	txbuffer[2] = 0xfd;
-	txbuffer[3] = 0x00;
+    stream->write(txbuffer,p.getSize());
 
-	txbuffer[4] = id;
-	txbuffer[5] = DXL_LOBYTE(4+3);
-	txbuffer[6] = DXL_HIBYTE(4+3);
+    //stream->write(txbuffer,bufsize);
 
-	txbuffer[7] = 0x03;
-
-	for(cont = 0; cont < 4; cont++)
-    	{
-        	txbuffer[cont+8] = gbpParamEx[cont];
-    	}
-
-	wchecksum = 0;
-
-	wpacklen = DXL_MAKEWORD(txbuffer[5], txbuffer[6])+5;
-	if(wpacklen > (MAXNUM_TXPACKET)){
-        return 0;
-    }
-
-	wchecksum = update_crc(0, txbuffer, wpacklen);
-	txbuffer[wpacklen] = DXL_LOBYTE(wchecksum);
-	txbuffer[wpacklen+1] = DXL_HIBYTE(wchecksum);
-
-	wpacklen += 2;
-
-	//switchCom(Direction_Pin, Tx_MODE);
-
-	for(cont = 0; cont < wpacklen; cont++)
-	{
-	   sendData(txbuffer[cont]);
-	}
-
-	//switchCom(Direction_Pin, Rx_MODE);
-
+    return p.getSize();	
 }
 
 // from http://stackoverflow.com/a/133363/195061
 
 #define FSM
 #define STATE(x)        s_##x : if(!stream->readBytes(&BUFFER[I++],1)) goto sx_timeout ; if(I>=SIZE) goto sx_overflow; sn_##x :
-#define LASTBYTE        (BUFFER[I-1])
+#define THISBYTE        (BUFFER[I-1])
 #define NEXTSTATE(x)    goto s_##x
 #define NEXTSTATE_NR(x) goto sn_##x
 #define OVERFLOW        sx_overflow :
@@ -339,44 +320,49 @@ int XL320::readPacket(unsigned char *BUFFER, size_t SIZE) {
 
     int length = 0;
 
-      // define fsm here
-      // write in to buffer 
-      // keep track of index
-      // return if we overflox max_txlength(?)
-      // return if reads timeout? setTimeout behaviour?	
+      // state names normally name the last parsed symbol
+      
 
     FSM {
       STATE(start) {
-	if(LASTBYTE==0xFF) NEXTSTATE(header_ff_1);
+	if(THISBYTE==0xFF) NEXTSTATE(header_ff_1);
 	I=0; NEXTSTATE(start);
       }
       STATE(header_ff_1) {
-	if(LASTBYTE==0xFF) NEXTSTATE(header_ff_2);
+	if(THISBYTE==0xFF) NEXTSTATE(header_ff_2);
 	I=0; NEXTSTATE(start);	
       }
       STATE(header_ff_2) {
-	if(LASTBYTE==0xFD) NEXTSTATE(header_fd);
+	if(THISBYTE==0xFD) NEXTSTATE(header_fd);
+	// yet more 0xFF's? stay in this state
+	if(THISBYTE==0xFF) NEXTSTATE(header_ff_2);
+	// anything else? restart
+	I=0; NEXTSTATE(start);
       }
       STATE(header_fd) {
+	  // reading reserved, could be anything in theory, normally 0
       }
       STATE(header_reserved) {
+	  // id = THISBYTE
       }
       STATE(id) {
-	length = LASTBYTE;
+	length = THISBYTE;
       }
       STATE(length_1) {
-	length += LASTBYTE<<8; // eg: length=4
+	length += THISBYTE<<8; // eg: length=4
       }
       STATE(length_2) {
       }
       STATE(instr) {
-        // check length. I==9 here
+	// instr = THISBYTE
+        // check length because
         // action and reboot commands have no parameters
 	if(I-length>=5) NEXTSTATE(checksum_1);
       }
       STATE(params) {
-	  // check length
+	  // check length and maybe skip to checksum
 	  if(I-length>=5) NEXTSTATE(checksum_1);
+	  // or keep reading params
 	  NEXTSTATE(params);
       }
       STATE(checksum_1) {
@@ -395,15 +381,20 @@ int XL320::readPacket(unsigned char *BUFFER, size_t SIZE) {
     }
 }
 
+
 XL320::Packet::Packet(
 	unsigned char *data,
 	size_t data_size,
 	unsigned char id,
 	unsigned char instruction,
-	unsigned char *parameter_data,
-	size_t parameter_data_size) {
+	int parameter_data_size,
+	...) {
+
+
+    // [ff][ff][fd][00][id][len1][len2] { [instr][params(parameter_data_size)][crc1][crc2] }
     unsigned int length=3+parameter_data_size;
     if(!data) {
+	// [ff][ff][fd][00][id][len1][len2] { [data(length)] }
 	this->data_size = 7+length;   
 	this->data = (unsigned char*)malloc(data_size);
 	this->freeData = true;
@@ -420,12 +411,16 @@ XL320::Packet::Packet(
     this->data[5]=length&0xff;
     this->data[6]=(length>>8)&0xff;
     this->data[7]=instruction;
+    va_list args;
+    va_start(args, parameter_data_size); 
     for(int i=0;i<parameter_data_size;i++) {
-	this->data[8+i]=parameter_data[i];
+	unsigned char arg = va_arg(args, int);
+	this->data[8+i]=arg;
     }
     unsigned short crc = update_crc(0,this->data,this->getSize()-2);
     this->data[8+parameter_data_size]=crc&0xff;
     this->data[9+parameter_data_size]=(crc>>8)&0xff;
+    va_end(args);
 }
 
 XL320::Packet::Packet(unsigned char *data, size_t size) {
@@ -434,10 +429,31 @@ XL320::Packet::Packet(unsigned char *data, size_t size) {
     this->freeData = false;
 }
 
+
 XL320::Packet::~Packet() {
     if(this->freeData==true) {
 	free(this->data);
     }
+}
+
+void XL320::Packet::toStream(Stream &stream) {
+    stream.print("id: ");
+    stream.println(this->getId(),DEC);
+    stream.print("length: ");
+    stream.println(this->getLength(),DEC);
+    stream.print("instruction: ");
+    stream.println(this->getInstruction(),HEX);
+    stream.print("parameter count: ");
+    stream.println(this->getParameterCount(), DEC);
+    for(int i=0;i<this->getParameterCount(); i++) {
+	stream.print(this->getParameter(i),HEX);
+	if(i<this->getParameterCount()-1) {
+	    stream.print(",");
+	}
+    }
+    stream.println();
+    stream.print("valid: ");
+    stream.println(this->isValid()?"yes":"no");
 }
 
 unsigned char XL320::Packet::getId() {
