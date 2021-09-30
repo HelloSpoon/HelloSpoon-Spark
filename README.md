@@ -1,7 +1,7 @@
 Dynamixel XL-320
 ================
 
-<img src="http://hackerspace-adelaide.org.au/w/images/0/03/XL320-arduino-library.jpg" width="100%" alt="Dynamixel XL-320 servo library for Adruino" title="Dynamixel XL-320 servo library for Adruino">
+<img src="XL320-arduino-library.jpg" width="100%" alt="Dynamixel XL-320 servo library for Adruino" title="Dynamixel XL-320 servo library for Adruino">
 
 ## A Servo library for Arduino
 
@@ -27,7 +27,7 @@ Looking from above, with the servo head at the top, wire the left plug of the se
 * PIN2: 5 volts
 * PIN3: Serial TX
 
-![Dynamixel XL-320 wiring diagram](http://hackerspace-adelaide.org.au/w/images/f/f0/XL320-wiring.png)
+![Dynamixel XL-320 wiring diagram](XL320-wiring.jpg)
 
 ### Setting the servo serial baud rate & servoID
 
