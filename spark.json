@@ -1,7 +1,0 @@
-{
-  "name": "HelloSpoon-Spark",
-  "author": "HelloSpoon Embedded Team <hellospoonpr@gmail.com>",
-  "license": "GNU",
-  "version": "0.0.4",
-  "description": "A library to control HelloSpoon robot."
-}
